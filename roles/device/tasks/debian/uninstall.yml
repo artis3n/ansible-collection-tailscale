@@ -1,0 +1,36 @@
+---
+- name: Debian | Include apt codename generation tasks
+  ansible.builtin.include_tasks:
+    file: apt-codename.yml
+
+- name: Debian | Apt Dependencies
+  become: true
+  ansible.builtin.apt:
+    name: "{{ tailscale_apt_dependencies }}"
+    cache_valid_time: 3600
+    state: present
+
+- name: Debian | Remove Tailscale
+  become: true
+  ansible.builtin.apt:
+    name: "{{ tailscale_package }}"
+    state: absent
+
+- name: Debian | Remove Tailscale Deb
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "{{ tailscale_apt_deb }}"
+    state: absent
+    codename: "{{ apt_codename }}"
+
+- name: Debian | Remove Tailscale Signing Key from trusted.gpg
+  become: true
+  ansible.builtin.apt_key:
+    url: "{{ tailscale_apt_signkey }}"
+    state: absent
+
+- name: Debian | Remove Tailscale Signing Key from keyrings
+  become: true
+  ansible.builtin.file:
+    path: "{{ tailscale_apt_keyring_path }}"
+    state: absent

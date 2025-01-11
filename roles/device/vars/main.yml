@@ -1,0 +1,75 @@
+---
+# Variables that an end user should likely never modify.
+
+tailscale_debian_family_distros:
+  - Ubuntu
+  - Debian
+  - Pop!_OS
+  - OSMC
+  - "Linux Mint"
+
+tailscale_centos_family_distros:
+  - CentOS
+  - OracleLinux
+  - RedHat
+  - Rocky
+  - AlmaLinux
+
+tailscale_opensuse_family_distros:
+  - "openSUSE Leap"
+  - "openSUSE Tumbleweed"
+
+tailscale_package: tailscale
+tailscale_service: tailscaled
+
+tailscale_apt_dependencies:
+  - gnupg
+  - gnupg-agent
+  - apt-transport-https
+  - python3-apt
+
+tailscale_legacy_apt_dependencies:
+  # Only install on legacy Debian systems
+  - python-apt
+
+tailscale_debian_distro:
+  pop!_os: ubuntu
+  ubuntu: ubuntu
+  debian: debian
+  osmc: debian
+  "linux mint": ubuntu
+
+tailscale_apt_keyring_path: /usr/share/keyrings/tailscale-archive-keyring.gpg
+
+tailscale_apt_deb: deb [signed-by={{ tailscale_apt_keyring_path }}] https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }} {{ apt_codename | lower }} main
+
+tailscale_apt_signkey: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }}/{{ apt_codename | lower }}.noarmor.gpg
+
+tailscale_yum_dependencies:
+  - yum-utils
+  - gnupg
+
+tailscale_yum_repos:
+  Amazon: https://pkgs.tailscale.com/{{ release_stability | lower }}/amazon-linux/{{ ansible_distribution_major_version }}/tailscale.repo
+  CentOS: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
+  RedHat: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ "rhel" if ansible_distribution_major_version | int == 8 else "centos" }}/{{ ansible_distribution_major_version }}/tailscale.repo
+  OracleLinux: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
+  Rocky: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
+  AlmaLinux: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
+
+tailscale_dnf_dependencies:
+  - python-dnf
+
+tailscale_dnf_plugins:
+  - dnf-plugins-core
+
+tailscale_dnf_repos:
+  Amazon: https://pkgs.tailscale.com/{{ release_stability | lower }}/fedora/tailscale.repo
+  Fedora: https://pkgs.tailscale.com/{{ release_stability | lower }}/fedora/tailscale.repo
+
+tailscale_opensuse_leap_key: https://pkgs.tailscale.com/{{ release_stability | lower }}/opensuse/leap/{{ ansible_distribution_version }}/repo.gpg
+tailscale_opensuse_leap_repository: https://pkgs.tailscale.com/stable/opensuse/leap/{{ ansible_distribution_version }}/tailscale.repo
+tailscale_opensuse_tumbleweed_key: https://pkgs.tailscale.com/{{ release_stability | lower }}/opensuse/tumbleweed/repo.gpg
+tailscale_opensuse_tumbleweed_repository: https://pkgs.tailscale.com/{{ release_stability | lower }}/opensuse/tumbleweed/tailscale.repo
+
+tailscale_original_distribution_major_version: "{{ ansible_distribution_major_version }}"

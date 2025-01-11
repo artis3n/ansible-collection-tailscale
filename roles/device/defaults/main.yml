@@ -1,0 +1,34 @@
+---
+# Variables that a user may want to modify.
+
+# Whether to install or uninstall Tailscale. Either 'latest', 'present', or 'absent'
+state: latest
+# Required Node auth key to authenticate to Tailscale
+tailscale_authkey: ""
+# Optional command-line arguments for 'tailscale up'
+tailscale_args: ""
+# Apply provided tags to node
+tailscale_tags: []
+# Set timeout for 'tailscale up' command in seconds
+tailscale_up_timeout: "120"
+
+# Used for OAuth authentication
+# Register as an ephemeral node (recommended)
+tailscale_oauth_ephemeral: true
+# Skip manual device approval
+tailscale_oauth_preauthorized: false
+
+# Whether to output debug information during role execution
+verbose: false
+# Whether to skip 'tailscale up'
+tailscale_up_skip: false
+# Whether to use the stable or unstable upstream Tailscale build.
+# Strongly recommend to leave on 'stable' unless you know what you're doing
+release_stability: stable
+# Whether to log your Tailscale authkey in the event of some error with the "Bring Tailscale Up" command.
+# Since this value is sensitive, log output is disabled by default.
+# You can easily toggle this value by setting this variable to "true".
+insecurely_log_authkey: false
+# Whether to store hashed authkey in state
+# Setting to false won't re-run 'tailscale up' on authkey change
+auth_key_in_state: true

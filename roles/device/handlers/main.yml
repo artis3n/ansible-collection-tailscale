@@ -1,0 +1,23 @@
+---
+- name: Fetch Tailscale status
+  listen: Confirm Tailscale is Connected
+  ansible.builtin.command: tailscale status --json
+  changed_when: false
+  register: tailscale_status
+
+- name: Parse status JSON
+  listen: Confirm Tailscale is Connected
+  ansible.builtin.set_fact:
+    tailscale_is_online: "{{ (tailscale_status.stdout | from_json).Self.Online }}"
+
+- name: Tailscale online status
+  listen: Confirm Tailscale is Connected
+  ansible.builtin.debug:
+    msg: "Online: {{ tailscale_is_online }}"
+  when: verbose
+
+- name: Assert Tailscale is Connected
+  listen: Confirm Tailscale is Connected
+  ansible.builtin.assert:
+    that:
+      - tailscale_is_online

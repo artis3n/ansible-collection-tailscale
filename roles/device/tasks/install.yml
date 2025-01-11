@@ -1,0 +1,185 @@
+---
+- name: Install | CentOS and related families
+  when: >
+    ansible_distribution in tailscale_centos_family_distros
+  ansible.builtin.include_tasks: centos/install.yml
+
+- name: Install | Amazon Linux 2
+  when:
+    - ansible_distribution == 'Amazon'
+    - ansible_distribution_major_version | int < 2023
+  ansible.builtin.include_tasks: centos/install-legacy.yml
+
+- name: Install | Debian and related families
+  when: ansible_distribution in tailscale_debian_family_distros
+  ansible.builtin.include_tasks: debian/install.yml
+
+- name: Install | Fedora and related families
+  when: >
+    ansible_distribution == 'Fedora'
+    or (ansible_distribution == 'Amazon' and ansible_distribution_major_version | int >= 2023)
+  ansible.builtin.include_tasks: fedora/install.yml
+
+- name: Install | Arch
+  when: ansible_distribution == 'Archlinux'
+  ansible.builtin.include_tasks: arch/install.yml
+
+- name: Install | OpenSUSE
+  when: ansible_distribution in tailscale_opensuse_family_distros
+  ansible.builtin.include_tasks: opensuse/install.yml
+
+- name: Install | Remove legacy state folder
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.artis3n-tailscale"
+    state: absent
+
+- name: Install | Determine state folder
+  ansible.builtin.set_fact:
+    # Following https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+    tailscale_state_folder: "{{ ansible_env.XDG_STATE_HOME | default(ansible_env.HOME + '/.local/state') }}"
+
+- name: Install | Set state idempotency folder
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: '0700'
+  loop:
+    - "{{ tailscale_state_folder }}"
+    - "{{ tailscale_state_folder }}/artis3n-tailscale"
+
+- name: Install | Store state idempotency README
+  ansible.builtin.copy:
+    src: files/state_readme.md
+    dest: "{{ tailscale_state_folder }}/artis3n-tailscale/README.md"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: '0644'
+
+- name: Install | Enable Service
+  become: true
+  ansible.builtin.service:
+    name: "{{ tailscale_service }}"
+    state: started
+    enabled: true
+
+- name: Install | Fetch Tailscale status
+  ansible.builtin.command: tailscale status --json
+  changed_when: false
+  register: tailscale_status
+
+- name: Install | Parse status JSON
+  vars:
+    tailscale_status_parsed: "{{ tailscale_status.stdout | from_json }}"
+  ansible.builtin.set_fact:
+    tailscale_is_online: "{{ tailscale_status_parsed.Self.Online }}"
+    tailscale_version: "{{ tailscale_status_parsed.Version }}"
+
+- name: Install | Tailscale version and online status
+  ansible.builtin.debug:
+    msg: "Ver: {{ tailscale_version }} Online: {{ tailscale_is_online }}"
+  when: verbose
+
+- name: Install | Prepend 'tag:' to each item in the list
+  ansible.builtin.set_fact:
+    tailscale_prepared_tags: "{{ tailscale_tags | map('regex_replace', '^', 'tag:') | list }}"
+
+# OAuth key starts with 'tskey-client-', auth key starts with 'tskey-auth-', with headscale it can be 'unused'
+- name: Install | Build `tailscale up` arguments strings
+  ansible.builtin.set_fact:
+    tailscale_authkey_type: >-
+      {# Check if the key is an OAuth key #}
+      {% if tailscale_authkey.startswith('tskey-client-') %}
+      OAuth Client Secret
+      {% elif tailscale_authkey.startswith('tskey-auth-') %}
+      API Token
+      {% else %}
+      Unknown token format
+      {% endif %}
+    tailscale_authkey_string: >-
+      {# Check if the key is an OAuth key #}
+      {% if tailscale_authkey.startswith('tskey-client-') %}
+      {{ tailscale_authkey }}?ephemeral={{ tailscale_oauth_ephemeral | bool }}&preauthorized={{ tailscale_oauth_preauthorized | bool }}
+      {# Check if the key is not OAuth (regular authkey or unused) #}
+      {% else %}
+      {{ tailscale_authkey }}
+      {% endif %}
+    tailscale_tags_string: >-
+      {% if tailscale_tags | length > 0 %}
+      --advertise-tags={{ tailscale_prepared_tags | join(',') }}
+      {% endif %}
+  no_log: "{{ not (insecurely_log_authkey | bool) }}"
+
+- name: Install | Authkey Type
+  ansible.builtin.debug:
+    msg: "{{ tailscale_authkey_type | trim }}"
+  when: verbose
+
+- name: Install | Build the final tailscale_args
+  ansible.builtin.set_fact:
+    tailscale_args_string: >
+      {{ tailscale_args }}
+      {{ tailscale_tags_string | trim if tailscale_tags_string is not none else '' }}
+      --timeout={{ tailscale_up_timeout | trim }}s
+
+- name: Install | Final `tailscale up` arguments string
+  ansible.builtin.debug:
+    msg: "{{ tailscale_args_string | trim }}"
+  when: verbose
+
+- name: Install | Save State
+  ansible.builtin.template:
+    src: state.j2
+    dest: "{{ tailscale_state_folder }}/artis3n-tailscale/state"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: '0644'
+  register: state_file
+
+- name: Install | Bring Tailscale Up
+  become: true
+  ansible.builtin.command: "tailscale up {{ tailscale_args_string | trim }} --authkey={{ tailscale_authkey_string | trim }}"
+  # Since the auth key is included in this task's output, we do not want to log output
+  no_log: "{{ not (insecurely_log_authkey | bool) }}"
+  changed_when: true
+  register: tailscale_start
+  # If a failure occurred due to state changes, we still want to log a redacted version of the error if "no_log" is true
+  ignore_errors: true
+  when:
+    - not tailscale_up_skip
+    - state_file is changed or not tailscale_is_online
+  notify: Confirm Tailscale is Connected
+  async: "{{ (tailscale_up_timeout | trim | int) + 10 }}"
+  poll: 5
+
+- name: Install | Report non-sensitive stdout from "tailscale up"  # noqa: no-handler
+  ansible.builtin.debug:
+    msg: "{{ tailscale_start.stdout | replace(tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
+  when:
+    - tailscale_start is failed
+    - tailscale_start.stdout | length > 0
+  register: nonsensitive_stdout
+
+- name: Install | Pausing to highlight stdout message above
+  ansible.builtin.wait_for:
+    timeout: 5
+  when: nonsensitive_stdout is not skipped
+
+- name: Install | Clear State Upon Error
+  ansible.builtin.file:
+    path: "{{ tailscale_state_folder }}/artis3n-tailscale/state"
+    state: absent
+  when:
+    - tailscale_start is failed
+
+- name: Install | Report redacted failure from "tailscale up"  # noqa: no-handler
+  ansible.builtin.fail:
+    msg: "{{ tailscale_start.stderr | default () | regex_replace(tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
+  when:
+    - tailscale_start is failed
+
+- name: Install | Register role facts
+  ansible.builtin.include_tasks: facts.yml
+  when:
+    - not tailscale_up_skip

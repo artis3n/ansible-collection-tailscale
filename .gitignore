@@ -1,0 +1,6 @@
+.idea
+.vscode
+.cache
+.*vault-pass
+.dccache
+.DS_Store

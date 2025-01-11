@@ -1,0 +1,61 @@
+---
+name: Run Molecule Test
+
+on:
+  workflow_call:
+    inputs:
+      scenario:
+        required: true
+        type: string
+      image:
+        required: false
+        type: string
+        default: 'geerlingguy/docker-ubuntu2404-ansible:latest'
+      command:
+        required: false
+        type: string
+      runner:
+        required: false
+        type: string
+        default: ubuntu-24.04
+    secrets:
+      tailscale_key:
+        required: true
+
+env:
+  # https://www.jeffgeerling.com/blog/2020/getting-colorized-output-molecule-and-ansible-on-github-actions-ci
+  PY_COLORS: '1'
+  ANSIBLE_FORCE_COLOR: '1'
+  # Temporary - https://github.com/artis3n/ansible-role-tailscale/issues/432#issuecomment-1948954799
+  HEADSCALE_IMAGE: headscale/headscale:0.22
+
+jobs:
+  run-scenario:
+    name: "Run Molecule Scenario - ${{ inputs.image }} / ${{ inputs.scenario }}"
+    runs-on: ${{ inputs.runner }}
+    environment: E2E
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install dependency manager
+        run: pipx install poetry
+
+      - name: Set up Python 3.x
+        id: setup-python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: pyproject.toml
+          cache: 'poetry'
+
+      - name: Install packages
+        run: poetry install --no-interaction
+
+      - name: Run scenario
+        run: poetry run molecule test --scenario-name "${{ inputs.scenario }}"
+        env:
+          MOLECULE_DISTRO: "${{ inputs.image }}"
+          MOLECULE_COMMAND: "${{ inputs.command }}"
+          TAILSCALE_CI_KEY: "${{ secrets.tailscale_key }}"

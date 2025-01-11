@@ -1,0 +1,98 @@
+---
+- name: State Validation
+  ansible.builtin.fail:
+    msg: "'state' must be 'latest', 'present', or 'absent'."
+  when:
+    - state != "latest"
+    - state != "present"
+    - state != "absent"
+
+- name: Tailscale Auth Key Required
+  ansible.builtin.fail:
+    msg: >
+      You must include a Node Authorization auth key.
+      Set a `tailscale_authkey` variable.
+      You can create this key from: https://login.tailscale.com/admin/settings/keys .
+  when:
+    - not tailscale_authkey
+    - not tailscale_up_skip
+    - state != "absent"
+
+- name: Tailscale Tags Required with OAuth Key
+  ansible.builtin.fail:
+    msg: "When `tailscale_authkey` is an OAuth key, you must supply one or more tags in `tailscale_tags`."
+  when:
+    - tailscale_authkey.startswith('tskey-client-')
+    - not tailscale_tags
+    - state != "absent"
+    - not tailscale_up_skip
+
+- name: Tailscale timeout verification
+  ansible.builtin.fail:
+    msg: "`tailscale_up_timeout` variable should be parseable as an integer."
+  when:
+    - tailscale_up_timeout != 0
+    - (tailscale_up_timeout | type_debug == "bool") or not (tailscale_up_timeout | int)
+    - state != "absent"
+    - not tailscale_up_skip
+
+- name: Use tailscale_tags instead of tailscale_args for tags
+  ansible.builtin.debug:
+    msg: You must use `tailscale_tags` instead of `tailscale_args` to assign tags.
+  when:
+    - '"--advertise-tags" in tailscale_args'
+    - not tailscale_tags
+    - state != "absent"
+    - not tailscale_up_skip
+
+- name: Skipping Authentication
+  ansible.builtin.debug:
+    msg: You have set 'tailscale_up_skip', so this node will not authenticate to your Tailscale network.
+  when: tailscale_up_skip
+
+- name: Unstable Warning
+  # Print an error message to the console but proceed anyway
+  ansible.builtin.fail:
+    msg: >
+      !!!!!
+      Installing Tailscale from the unstable branch.
+      This is bleeding edge and may have issues.
+      Be warned.
+      !!!!!
+  when: release_stability | lower == 'unstable'
+  failed_when: false
+
+- name: Prepare lsb_release if missing
+  # Any system that Ansible can't gather versions from is missing lsb_release
+  # Only encountered on Debian so far during pre-release "testing" stage
+  when: tailscale_original_distribution_major_version == "NA"
+  block:
+    - name: Install lsb_release
+      become: true
+      ansible.builtin.package:
+        name: lsb-release
+        cache_valid_time: 3600
+        state: present
+      when: ansible_distribution in tailscale_debian_family_distros or ansible_distribution == 'ArchLinux'
+
+    - name: Install lsb_release
+      become: true
+      ansible.builtin.package:
+        name: redhat-lsb-core
+        state: present
+      when: ansible_distribution in tailscale_centos_family_distros or ansible_distribution == 'Fedora'
+
+    - name: Refresh Setup
+      ansible.builtin.setup:
+
+- name: Operating System
+  ansible.builtin.debug:
+    msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} ({{ ansible_distribution_release }})"
+
+- name: Install Tailscale
+  when: state == "present" or state == "latest"
+  ansible.builtin.include_tasks: install.yml
+
+- name: Uninstall Tailscale
+  when: state == "absent"
+  ansible.builtin.include_tasks: uninstall.yml

@@ -1,0 +1,161 @@
+---
+name: Molecule Tests
+
+on:
+  # Manual approval of environment is required
+  pull_request_target:
+    branches:
+      - main
+    paths-ignore:
+      - ".devcontainer/**"
+      - "README.md"
+
+env:
+  # https://www.jeffgeerling.com/blog/2020/getting-colorized-output-molecule-and-ansible-on-github-actions-ci
+  PY_COLORS: '1'
+  ANSIBLE_FORCE_COLOR: '1'
+  # Temporary - https://github.com/artis3n/ansible-role-tailscale/issues/432#issuecomment-1948954799
+  HEADSCALE_IMAGE: headscale/headscale:0.22
+
+jobs:
+  molecule:
+    name: "Test Distros"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: ghcr.io/artis3n/docker-amazonlinux2023-ansible:latest
+          - image: geerlingguy/docker-rockylinux8-ansible:latest
+          - image: geerlingguy/docker-rockylinux9-ansible:latest
+          - image: ghcr.io/artis3n/docker-almalinux8-ansible:latest
+          - image: ghcr.io/artis3n/docker-rhel8-ansible:latest
+          - image: ghcr.io/artis3n/docker-oraclelinux8-ansible:latest
+          - image: geerlingguy/docker-ubuntu2404-ansible:latest
+          - image: ghcr.io/fkonradmain/docker-linuxmint22-ansible:latest
+          - image: geerlingguy/docker-ubuntu2204-ansible:latest
+          - image: geerlingguy/docker-ubuntu2004-ansible:latest
+          - image: geerlingguy/docker-ubuntu1804-ansible:latest
+            command: /lib/systemd/systemd
+          - image: geerlingguy/docker-debian12-ansible:latest
+          - image: geerlingguy/docker-debian11-ansible:latest
+            command: /lib/systemd/systemd
+          - image: geerlingguy/docker-debian10-ansible:latest
+            command: /lib/systemd/systemd
+          - image: geerlingguy/docker-fedora31-ansible:latest
+          - image: ghcr.io/artis3n/docker-arch-ansible:latest
+          - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
+          # Leap 15.6 is currently not supported by Tailscale: https://github.com/artis3n/ansible-role-tailscale/issues/480
+          # - image: ghcr.io/artis3n/docker-opensuse-leap-ansible:latest
+          #   command: /lib/systemd/systemd
+
+    uses: ./.github/workflows/molecule.yml
+    with:
+      image: ${{ matrix.image }}
+      command: ${{ matrix.command }}
+      scenario: 'default'
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  # Systems that aren't working with cgroups v2 on ubuntu 22.04, but works on ubuntu 20.04
+  molecule-legacy:
+    name: "Test Legacy Distros"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: ghcr.io/artis3n/docker-amazonlinux2-ansible:latest
+            command: /usr/lib/systemd/systemd
+
+    uses: ./.github/workflows/molecule.yml
+    with:
+      image: ${{ matrix.image }}
+      command: ${{ matrix.command }}
+      scenario: 'default'
+      runner: ubuntu-20.04
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-state-absent:
+    name: "Run Molecule Scenario: state-absent"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      scenario: 'state-absent'
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-skip-auth:
+    name: "Run Molecule Scenario: skip-authentication"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      scenario: 'skip-authentication'
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-args:
+    name: "Run Molecule Scenario: args"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      scenario: 'args'
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-state-present:
+    name: "Run Molecule Scenario: state-idempotency"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      scenario: 'state-idempotency'
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-oauth:
+    name: "Run Molecule Scenario: oauth"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      scenario: 'oauth'
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_OAUTH_CLIENT_SECRET }}
+
+  molecule-strategy-free:
+    name: "Run Molecule Scenario: strategy-free"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      scenario: 'strategy-free'
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-headscale:
+    name: "Test Headscale Compatibility"
+    runs-on: ubuntu-24.04
+    environment: E2E
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario:
+          - default
+          - state-absent
+          - idempotent-up
+          - strategy-free
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install dependency manager
+        run: pipx install poetry
+
+      - name: Set up Python 3.x
+        id: setup-python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: pyproject.toml
+          cache: 'poetry'
+
+      - name: Install packages
+        run: poetry install --no-interaction
+
+      - name: Run scenario with Headscale
+        run: poetry run molecule test --scenario-name ${{ matrix.scenario }}
+        env:
+          TAILSCALE_CI_KEY: "unused"
+          USE_HEADSCALE: "true"

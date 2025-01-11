@@ -1,0 +1,43 @@
+---
+- name: Debian | Include apt codename generation tasks
+  ansible.builtin.include_tasks:
+    file: apt-codename.yml
+
+- name: Debian | Apt Dependencies
+  become: true
+  ansible.builtin.apt:
+    name: "{{ tailscale_apt_dependencies }}"
+    cache_valid_time: 3600
+    state: present
+
+- name: Debian | Legacy Apt Dependencies
+  become: true
+  ansible.builtin.apt:
+    name: "{{ tailscale_legacy_apt_dependencies }}"
+  when:
+    - ansible_distribution_major_version | int < 11
+    # Prelease versions of debian tend to not have a version integer yet
+    - ansible_distribution_major_version != "testing"
+    - ansible_distribution_major_version != "n/a"
+
+- name: Debian | Add Tailscale Signing Key
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ tailscale_apt_signkey }}"
+    dest: "{{ tailscale_apt_keyring_path }}"
+    mode: '0644'
+
+- name: Debian | Add Tailscale Deb
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "{{ tailscale_apt_deb }}"
+    filename: "tailscale"
+    state: present
+    codename: "{{ apt_codename }}"
+
+- name: Debian | Install Tailscale
+  become: true
+  ansible.builtin.apt:
+    name: "{{ tailscale_package }}"
+    cache_valid_time: 3600
+    state: '{{ state }}'

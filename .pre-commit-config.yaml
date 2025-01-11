@@ -1,0 +1,30 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+      - id: sort-simple-yaml
+
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v24.6.1
+    hooks:
+      - id: ansible-lint
+        files: \.(yaml|yml)$
+        args:
+          - '--profile=production'
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.1
+    hooks:
+      - id: actionlint-docker
