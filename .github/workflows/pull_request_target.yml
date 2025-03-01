@@ -132,6 +132,7 @@ jobs:
 
       - name: Run scenario with Headscale
         run: uv run molecule test --scenario-name ${{ matrix.scenario }}
+        working-directory: extensions
         env:
           TAILSCALE_CI_KEY: "unused"
           USE_HEADSCALE: "true"
