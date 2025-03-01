@@ -1,13 +1,30 @@
-[tool.poetry]
+[project]
 name = "artis3n.tailscale"
-version = "4.5.0"
-description = "Ansible role to install and enable a Tailscale node."
-authors = ["Artis3n <dev@artis3nal.com>"]
+description = "Ansible collection to manage your Tailscale devices and tailnet."
+dynamic = [ "version" ]
+authors = [{ name = "Ari Kalfus (artis3n)", email = "dev@artis3nal.com" }]
 license = "MIT"
+readme = "README.md"
+keywords = ["tailscale", "vpn", "networking", "ansible"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Ansible",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet",
+    "Topic :: Security",
+    "Topic :: System",
+    "Topic :: System :: Networking",
+]
 
-[tool.poetry.dependencies]
-python = "^3.13"
-ansible = "^9.12.0"
+requires-python = ">=3.13"
+dependencies = [
+    "ansible>=9.12.0"
+]
+
+[tool.poetry]
+package-mode = false
+version = "0.0.0"
 
 [tool.poetry.group.dev.dependencies]
 ansible-lint = { version = "^24.7.0", markers = "platform_system != 'Windows'" }
@@ -16,6 +33,21 @@ molecule-plugins = {extras = ["docker"], version = "^23.5.3"}
 pre-commit = "^4.0.1"
 pytest = "^8.3.3"
 
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = ">= 1.7.1"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+
+[tool.uv.workspace]
+members = ["artis3n.tailscale"]
+
+[project.urls]
+homepage = "https://github.com/artis3n/ansible-collection-tailscale"
+repository = "https://github.com/artis3n/ansible-collection-tailscale"
+documentation = "https://github.com/artis3n/ansible-collection-tailscale"
+"Bug Tracker" = "https://github.com/artis3n/ansible-collection-tailscale/issues"
+
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
