@@ -3,6 +3,10 @@
   hosts: localhost
   gather_facts: false
   tasks:
+    - name: MOLECULE_PROJECT_DIRECTORY
+      ansible.builtin.debug:
+        msg: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
+
     - name: Create Headscale user
       community.docker.docker_container_exec:
         container: headscale

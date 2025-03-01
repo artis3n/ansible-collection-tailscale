@@ -2,10 +2,6 @@
 - name: Converge
   hosts: instance
   tasks:
-    - name: MOLECULE_PROJECT_DIRECTORY
-      ansible.builtin.debug:
-        msg: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
-
     - name: Set custom up argument
       ansible.builtin.set_fact:
         tailscale_args: "--accept-dns"
