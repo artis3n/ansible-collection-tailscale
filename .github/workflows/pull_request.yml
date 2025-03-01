@@ -35,7 +35,6 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          pyproject-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
 
       - name: Install packages
         run: uv sync --frozen

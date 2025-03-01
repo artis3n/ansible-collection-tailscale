@@ -53,14 +53,13 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          pyproject-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
 
       - name: Install packages
         run: uv sync --frozen
 
       - name: Run scenario
         run: uv run molecule test --scenario-name "${{ inputs.scenario }}"
-        working-directory: extensions
+        working-directory: 'collections/ansible_collections/artis3n/tailscale/extensions'
         env:
           MOLECULE_DISTRO: "${{ inputs.image }}"
           MOLECULE_COMMAND: "${{ inputs.command }}"
