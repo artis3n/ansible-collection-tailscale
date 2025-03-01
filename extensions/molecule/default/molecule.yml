@@ -2,7 +2,7 @@
 dependency:
   name: galaxy
   options:
-    requirements-file: requirements.yml
+    requirements-file: ../requirements.yml
 driver:
   name: docker
 platforms:
@@ -21,7 +21,7 @@ platforms:
     pre_build_image: true
   - name: headscale
     image: ${HEADSCALE_IMAGE:-headscale/headscale:latest}
-    command: headscale serve
+    command: serve
     pre_build_image: true
     networks:
       - name: headscale
@@ -29,6 +29,9 @@ platforms:
       - "${MOLECULE_PROJECT_DIRECTORY}/molecule/default/headscale.config.yaml:/etc/headscale/config.yaml"
 provisioner:
   name: ansible
+  env:
+    # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
+    ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies"
 verifier:
   name: ansible
 scenario:

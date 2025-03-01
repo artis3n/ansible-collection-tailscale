@@ -4,12 +4,20 @@
     cmd: tailscale ip --4
   register: tailscale_ipv4_cmd
   changed_when: false
+  failed_when:
+    - tailscale_ipv4_cmd.rc != 0
+    # IPv6-only network will not have an IPv4 address
+    - tailscale_ipv4_cmd.stderr != "no Tailscale IPv4 address"
 
 - name: Facts | Get IPv6 address
   ansible.builtin.command:
     cmd: tailscale ip --6
   register: tailscale_ipv6_cmd
   changed_when: false
+  failed_when:
+    - tailscale_ipv6_cmd.rc != 0
+    # IPv4-only network will not have an IPv6 address
+    - tailscale_ipv6_cmd.stderr != "no Tailscale IPv6 address"
 
 - name: Facts | Register IP facts
   ansible.builtin.set_fact:
@@ -18,7 +26,7 @@
 
 - name: Facts | Get Tailscale host facts
   ansible.builtin.command:
-    cmd: tailscale whois --json {{ tailscale_node_ipv4 }}
+    cmd: tailscale whois --json {{ tailscale_node_ipv4 | default(tailscale_node_ipv6) }}
   register: tailscale_whois_cmd
   changed_when: false
 
