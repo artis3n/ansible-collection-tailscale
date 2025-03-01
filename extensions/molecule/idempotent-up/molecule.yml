@@ -21,7 +21,7 @@ platforms:
     pre_build_image: true
   - name: headscale
     image: ${HEADSCALE_IMAGE:-headscale/headscale:latest}
-    command: headscale serve
+    command: serve
     pre_build_image: true
     networks:
       - name: headscale
