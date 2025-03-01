@@ -2,7 +2,7 @@
 dependency:
   name: galaxy
   options:
-    requirements-file: requirements.yml
+    requirements-file: ../requirements.yml
 driver:
   name: docker
 platforms:
@@ -39,7 +39,7 @@ platforms:
   - name: instance-3
     groups:
       - instances
-    image: 'cisagov/docker-debian12-ansible:latest'
+    image: 'geerlingguy/docker-debian12-ansible:latest'
     command: ${MOLECULE_COMMAND:-/usr/sbin/init}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
@@ -63,6 +63,9 @@ provisioner:
   name: ansible
   playbooks:
     prepare: ../default/prepare.yml
+  env:
+    # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
+    ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies"
 verifier:
   name: ansible
 scenario:

@@ -8,13 +8,13 @@
     # Should be idempotent and also not error out if run before Tailscale has ever been installed
     - name: Uninstall Tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale
+        name: artis3n.tailscale.device
       vars:
         state: absent
 
     - name: Install Tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale
+        name: artis3n.tailscale.device
 
     # Force these to run before we start uninstalling things
     - name: Flush Handlers
@@ -34,6 +34,6 @@
 
     - name: Uninstall Tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale
+        name: artis3n.tailscale.device
       vars:
         state: absent
