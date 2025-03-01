@@ -11,6 +11,10 @@ env:
   PY_COLORS: '1'
   ANSIBLE_FORCE_COLOR: '1'
 
+defaults:
+  run:
+    working-directory: '/home/runner/work/collections/ansible_collections/artis3n/tailscale'
+
 jobs:
   lint:
     name: "Lint Checks"
@@ -18,8 +22,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: 'collections/ansible_collections/artis3n/tailscale'
+
+      - name: Test
+        run: |
+          echo "$PWD"
+          echo "${GITHUB_WORKSPACE}"
+          ls -la
 
       # Technically, uv will manage python version but this action will cache it, making python installation faster
       - name: Set up Python 3.x
