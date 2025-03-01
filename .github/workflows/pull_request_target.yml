@@ -125,12 +125,13 @@ jobs:
       - name: Set up Python 3.x
         uses: actions/setup-python@v5
         with:
-          python-version-file: pyproject.toml
+          python-version-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
 
       - name: Install dependency manager
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
+          pyproject-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
 
       - name: Install packages
         run: uv sync --frozen
