@@ -3,11 +3,8 @@ exclude_paths:
     - .github/
     - .idea/
     - .vscode/
-    - molecule/default/headscale.config.yaml
-    - molecule/default/init_tailscale_vars.yml
-    # pre-commit ansible-lint isn't respecting .ansible-lint-ignore
-    - tasks/centos/install-legacy.yml
-    - tasks/centos/uninstall-legacy.yml
+    - extensions/molecule/default/headscale.config.yaml
+    - extensions/molecule/default/init_tailscale_vars.yml
 
 skip_list:
     - yaml[line-length]

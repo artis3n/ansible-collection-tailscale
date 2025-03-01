@@ -7,6 +7,6 @@
 
     - name: "Include artis3n.tailscale"
       ansible.builtin.include_role:
-        name: artis3n.tailscale
+        name: artis3n.tailscale.device
       vars:
         verbose: true

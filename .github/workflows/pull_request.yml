@@ -19,18 +19,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependency manager
-        run: pipx install poetry
-
+      # Technically, uv will manage python version but this action will cache it, making python installation faster
       - name: Set up Python 3.x
-        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version-file: pyproject.toml
-          cache: 'poetry'
+
+      - name: Install dependency manager
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
 
       - name: Install packages
-        run: poetry install --no-interaction
+        run: uv sync --frozen
 
       - name: Lint
         run: make lint
