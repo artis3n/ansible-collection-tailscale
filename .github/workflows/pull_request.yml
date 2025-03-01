@@ -13,7 +13,7 @@ env:
 
 defaults:
   run:
-    working-directory: '/home/runner/work/collections/ansible_collections/artis3n/tailscale'
+    working-directory: '/home/runner/work/ansible-collection-tailscale/ansible-collection-tailscale/collections/ansible_collections/artis3n/tailscale'
 
 jobs:
   lint:
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: '/home/runner/work/collections/ansible_collections/artis3n/tailscale'
+          path: '/home/runner/work/ansible-collection-tailscale/ansible-collection-tailscale/collections/ansible_collections/artis3n/tailscale'
 
       - name: Test
         run: |

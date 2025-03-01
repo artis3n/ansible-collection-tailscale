@@ -29,7 +29,7 @@ env:
 
 defaults:
   run:
-    working-directory: '/home/runner/work/collections/ansible_collections/artis3n/tailscale'
+    working-directory: '/home/runner/work/ansible-collection-tailscale/ansible-collection-tailscale/collections/ansible_collections/artis3n/tailscale'
 
 jobs:
   run-scenario:
@@ -41,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          path: '/home/runner/work/collections/ansible_collections/artis3n/tailscale'
+          path: '/home/runner/work/ansible-collection-tailscale/ansible-collection-tailscale/collections/ansible_collections/artis3n/tailscale'
 
       # Technically, uv will manage python version but this action will cache it, making python installation faster
       - name: Set up Python 3.x
