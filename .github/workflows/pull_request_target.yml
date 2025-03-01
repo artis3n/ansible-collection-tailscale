@@ -3,8 +3,7 @@ name: Molecule Tests
 
 on:
   # Manual approval of environment is required
-#  pull_request_target:
-  pull_request:
+  pull_request_target:
     branches:
       - main
     paths-ignore:
