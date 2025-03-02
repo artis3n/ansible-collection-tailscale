@@ -4,3 +4,5 @@
 .dccache
 .DS_Store
 .ansible-dependencies
+# Temporay: https://github.com/ansible/ansible-lint/issues/4533
+.ansible

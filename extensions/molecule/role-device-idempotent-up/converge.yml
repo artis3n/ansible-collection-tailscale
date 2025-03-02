@@ -7,7 +7,7 @@
         tailscale_args: "--advertise-exit-node"
 
     - name: Init tailscale credentials variables
-      ansible.builtin.include_tasks: ../default/init_tailscale_vars.yml
+      ansible.builtin.include_tasks: ../role-device-default/init_tailscale_vars.yml
 
     - name: Configure Tailscale with a new up argument
       ansible.builtin.include_role:
@@ -20,7 +20,7 @@
             tailscale_args: null
 
         - name: Init tailscale credentials variables
-          ansible.builtin.include_tasks: ../default/init_tailscale_vars.yml
+          ansible.builtin.include_tasks: ../role-device-default/init_tailscale_vars.yml
 
         - name: Run tailscale up
           ansible.builtin.include_role:
@@ -43,7 +43,7 @@
         tailscale_args: "--reset"
 
     - name: Init tailscale credentials variables
-      ansible.builtin.include_tasks: ../default/init_tailscale_vars.yml
+      ansible.builtin.include_tasks: ../role-device-default/init_tailscale_vars.yml
 
     - name: Reset all previous Tailscale arguments
       ansible.builtin.include_role:

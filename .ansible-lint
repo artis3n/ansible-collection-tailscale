@@ -3,10 +3,11 @@ exclude_paths:
     - .github/
     - .idea/
     - .vscode/
-    - extensions/molecule/default/headscale.config.yaml
-    - extensions/molecule/default/init_tailscale_vars.yml
+    - extensions/molecule/role-device-default/headscale.config.yaml
+    - extensions/molecule/role-device-default/init_tailscale_vars.yml
 
 skip_list:
     - yaml[line-length]
     - package-latest
     - var-naming[no-role-prefix]
+    - galaxy[no-changelog]

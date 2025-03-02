@@ -3,11 +3,12 @@
   hosts: instance
   tasks:
     - name: Init tailscale credentials variables
-      ansible.builtin.include_tasks: ../default/init_tailscale_vars.yml
+      ansible.builtin.include_tasks: ../role-device-default/init_tailscale_vars.yml
 
     - name: "Include artis3n.tailscale"
       ansible.builtin.include_role:
         name: artis3n.tailscale.device
       vars:
-        state: present
         verbose: true
+        tailscale_tags:
+          - "ci-worker"
