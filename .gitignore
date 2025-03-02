@@ -4,3 +4,4 @@
 .dccache
 .DS_Store
 .ansible-dependencies
+.ansible
