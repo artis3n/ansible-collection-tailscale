@@ -3,7 +3,7 @@
   hosts: instance
   tasks:
     - name: Init tailscale credentials variables
-      ansible.builtin.include_tasks: ../default/init_tailscale_vars.yml
+      ansible.builtin.include_tasks: ../role-device-default/init_tailscale_vars.yml
 
     # Should be idempotent and also not error out if run before Tailscale has ever been installed
     - name: Uninstall Tailscale

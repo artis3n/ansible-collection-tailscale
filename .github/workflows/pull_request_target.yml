@@ -47,55 +47,55 @@ jobs:
     with:
       image: ${{ matrix.image }}
       command: ${{ matrix.command }}
-      scenario: 'default'
+      scenario: 'role-device-default'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-state-absent:
-    name: "Run Molecule Scenario: state-absent"
+    name: "Run Molecule Scenario: role-device-state-absent"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'state-absent'
+      scenario: 'role-device-state-absent'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-skip-auth:
-    name: "Run Molecule Scenario: skip-authentication"
+    name: "Run Molecule Scenario: role-device-skip-authentication"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'skip-authentication'
+      scenario: 'role-device-skip-authentication'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-args:
-    name: "Run Molecule Scenario: args"
+    name: "Run Molecule Scenario: role-device-args"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'args'
+      scenario: 'role-device-args'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-state-present:
-    name: "Run Molecule Scenario: state-idempotency"
+    name: "Run Molecule Scenario: role-device-state-idempotency"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'state-idempotency'
+      scenario: 'role-device-state-idempotency'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-oauth:
-    name: "Run Molecule Scenario: oauth"
+    name: "Run Molecule Scenario: role-device-oauth"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'oauth'
+      scenario: 'role-device-oauth'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_OAUTH_CLIENT_SECRET }}
 
   molecule-strategy-free:
-    name: "Run Molecule Scenario: strategy-free"
+    name: "Run Molecule Scenario: role-device-strategy-free"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'strategy-free'
+      scenario: 'role-device-strategy-free'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
@@ -107,10 +107,10 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
-          - default
-          - state-absent
-          - idempotent-up
-          - strategy-free
+          - role-device-default
+          - role-device-state-absent
+          - role-device-idempotent-up
+          - role-device-strategy-free
 
     steps:
       # nosemgrep: yaml.github-actions.security.pull-request-target-code-checkout.pull-request-target-code-checkout

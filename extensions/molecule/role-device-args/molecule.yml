@@ -26,18 +26,18 @@ platforms:
     networks:
       - name: headscale
     volumes:
-      - "${MOLECULE_PROJECT_DIRECTORY}/molecule/default/headscale.config.yaml:/etc/headscale/config.yaml"
+      - "${MOLECULE_PROJECT_DIRECTORY}/molecule/role-device-default/headscale.config.yaml:/etc/headscale/config.yaml"
 provisioner:
   name: ansible
   playbooks:
-    prepare: ../default/prepare.yml
+    prepare: ../role-device-default/prepare.yml
   env:
     # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
     ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies"
 verifier:
   name: ansible
 scenario:
-  name: idempotent-up
+  name: role-device-args
   test_sequence:
     - dependency
     - destroy

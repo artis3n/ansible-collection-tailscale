@@ -1,0 +1,40 @@
+namespace: artis3n
+name: tailscale
+version: 0.1.1
+
+readme: README.md
+authors:
+  - Ari Kalfus <dev@artis3nal.com>
+description: 'This collection provides a series of roles, plugins, and modules to manage your Tailscale Tailnet and Tailscale devices on Linux systems.'
+license_file: 'LICENSE'
+repository: https://github.com/artis3n/ansible-collection-tailscale
+documentation: https://github.com/artis3n/ansible-collection-tailscale
+homepage: https://galaxy.ansible.com/ui/repo/published/artis3n/tailscale/
+issues: https://github.com/artis3n/ansible-collection-tailscale/issues
+tags:
+  - "ansible"
+  - "networking"
+  - "tailscale"
+  - "vpn"
+
+# Collections that this collection requires to be installed for it to be usable. The key of the dict is the
+# collection label 'namespace.name'. The value is a version range
+# L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
+# range specifiers can be set and are separated by ','
+dependencies:
+  community.general: '>=10.5.0'
+
+# A list of file glob-like patterns used to filter any files or directories that should not be included in the build
+# artifact. A pattern is matched from the relative path of the file or directory of the collection directory. This
+# uses 'fnmatch' to match the files or directories. Some directories and files like 'galaxy.yml', '*.pyc', '*.retry',
+# and '.git' are always filtered. Mutually exclusive with 'manifest'
+build_ignore:
+  - '.venv'
+  - '.github'
+  - '.devcontainer'
+  - '.ansible'
+  - '.ansible-dependencies'
+  - '.vscode'
+  - '.idea'
+  - '.cache'
+  - '.DS_Store'
