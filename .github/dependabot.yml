@@ -10,6 +10,8 @@ updates:
         patterns:
           - '*'
 
+  # Unfortunately does not yet support uv lockfiles
+  # https://github.com/dependabot/dependabot-core/issues/10478
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
