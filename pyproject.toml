@@ -22,16 +22,16 @@ classifiers = [
     "Topic :: System",
     "Topic :: System :: Networking",
 ]
-requires-python = ">=3.13"
+requires-python = "~=3.13"
 dependencies = [
-    "ansible>=11.3.0",
+    "ansible~=9.12.0",
 ]
 
 [dependency-groups]
 dev = [
-    "ansible-lint>=25.1.3",
-    "molecule>=25.3.1",
-    "molecule-plugins[docker]>=23.7.0",
+    "ansible-lint~=25.1.3",
+    "molecule~=25.3.1",
+    "molecule-plugins[docker]~=23.7.0",
     "pre-commit>=4.1.0",
 ]
 
