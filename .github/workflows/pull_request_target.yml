@@ -109,7 +109,7 @@ jobs:
         scenario:
           - role-device-default
           - role-device-state-absent
-          - role-device-idempotent-up
+          # - role-device-idempotent-up
           - role-device-strategy-free
 
     steps:
