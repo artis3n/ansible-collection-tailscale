@@ -13,6 +13,10 @@ _This repo is the successor to <https://github.com/artis3n/ansible-role-tailscal
 
 This collection provides a series of roles, plugins, and modules to manage your Tailscale Tailnet and Tailscale devices on Linux systems.
 
+```bash
+ansible-galaxy collection install artis3n.tailscale
+```
+
 Supported operating systems for Tailscale devices:
 - Debian / Ubuntu
 - CentOS / RedHat
