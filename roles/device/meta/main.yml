@@ -5,7 +5,7 @@ galaxy_info:
   description: Install a Tailscale device.
   license: MIT
 
-  min_ansible_version: "2.12"
+  min_ansible_version: "2.18"
 
   galaxy_tags:
     - tailscale
