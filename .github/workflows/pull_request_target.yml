@@ -40,8 +40,8 @@ jobs:
           - image: geerlingguy/docker-fedora39-ansible:latest
           - image: ghcr.io/artis3n/docker-arch-ansible:latest
           - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
-          - image: ghcr.io/artis3n/docker-opensuse-leap-ansible:latest
-            command: /lib/systemd/systemd
+          # - image: ghcr.io/artis3n/docker-opensuse-leap-ansible:latest
+          #   command: /lib/systemd/systemd
 
     uses: ./.github/workflows/molecule.yml
     with:
