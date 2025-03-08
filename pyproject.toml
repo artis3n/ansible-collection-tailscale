@@ -1,7 +1,7 @@
 [project]
 name = "artis3n.tailscale"
 description = "Ansible collection to manage your Tailscale devices and tailnet."
-version = "0.1.1"
+version = "0.2.0"
 authors = [
     { name = "Ari Kalfus (artis3n)", email = "dev@artis3nal.com" },
 ]
@@ -24,7 +24,7 @@ classifiers = [
 ]
 requires-python = "~=3.13"
 dependencies = [
-    "ansible~=9.12.0",
+    "ansible~=11.3.0",
 ]
 
 [dependency-groups]
