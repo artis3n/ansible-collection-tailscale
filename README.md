@@ -1,5 +1,6 @@
 # Ansible Collection - artis3n.tailscale  <!-- omit in toc -->
 
+![Ansible Collection Downloads](https://img.shields.io/ansible/collection/d/artis3n/tailscale)
 [![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/artis3n/ansible-collection-tailscale?include_prereleases)](https://github.com/artis3n/ansible-collection-tailscale/releases)
 [![Molecule Tests](https://github.com/artis3n/ansible-collection-tailscale/actions/workflows/pull_request_target.yml/badge.svg)](https://github.com/artis3n/ansible-collection-tailscale/actions/workflows/pull_request_target.yml)
 ![GitHub last commit](https://img.shields.io/github/last-commit/artis3n/ansible-collection-tailscale)
