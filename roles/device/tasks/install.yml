@@ -69,6 +69,7 @@
   ansible.builtin.set_fact:
     tailscale_is_online: "{{ tailscale_status_parsed.Self.Online }}"
     tailscale_version: "{{ tailscale_status_parsed.Version }}"
+  when: tailscale_status is not skipped
 
 - name: Install | Tailscale version and online status
   ansible.builtin.debug:
@@ -152,7 +153,7 @@
     msg: "{{ tailscale_start.stdout | replace(tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
   when:
     - tailscale_start is failed
-    - tailscale_start.stdout | length > 0
+    - not ansible_check_mode and tailscale_start.stdout | length > 0
   register: nonsensitive_stdout
 
 - name: Install | Pausing to highlight stdout message above
@@ -165,13 +166,13 @@
     path: "{{ tailscale_state_folder }}/artis3n-tailscale/state"
     state: absent
   when:
-    - tailscale_start is failed
+    - not ansible_check_mode and tailscale_start is failed
 
 - name: Install | Report redacted failure from "tailscale up"  # noqa: no-handler
   ansible.builtin.fail:
     msg: "{{ tailscale_start.stderr | default () | regex_replace(tailscale_authkey, 'REDACTED') | regex_replace('\\t', '') | split('\n') }}"
   when:
-    - tailscale_start is failed
+    - not ansible_check_mode and tailscale_start is failed
 
 - name: Install | Register role facts
   ansible.builtin.include_tasks: facts.yml

@@ -33,6 +33,7 @@
 - name: Facts | Parse Tailscale host information
   ansible.builtin.set_fact:
     tailscale_whois: "{{ tailscale_whois_cmd.stdout | from_json }}"
+  when: tailscale_whois_cmd is not skipped
 
 - name: Facts | Set Tailscale host facts
   ansible.builtin.set_fact:
@@ -42,6 +43,7 @@
     tailscale_node_services: "{{ tailscale_whois.Node.Hostinfo.Services | default([]) }}"
     tailscale_node_tags: "{{ tailscale_whois.Node.Tags | default([]) }}"
     tailscale_node_whois: "{{ tailscale_whois.Node }}"
+  when: tailscale_whois_cmd is not skipped
 
 - name: Facts | Display key facts
   ansible.builtin.debug:
