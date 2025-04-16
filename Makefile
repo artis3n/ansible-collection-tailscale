@@ -25,9 +25,9 @@ lint:
 
 .PHONY: test
 test:
-	cd roles/device && make test-default
-	cd roles/device && make test-absent
+	cd roles/machine && make test-default
+	cd roles/machine && make test-absent
 
 .PHONY: testd
 testd:
-	cd roles/device && make test-default
+	cd roles/machine && make test-default

@@ -35,7 +35,7 @@ If you or your organization gets value out of this collection, I would very much
 
 ## Roles
 
-- [`artis3n.tailscale.device`](/roles/device/): Ansible role to install and configure Tailscale on a Linux server.
+- [`artis3n.tailscale.machine`](/roles/machine/): Ansible role to install and configure Tailscale on a Linux server.
 
 ## Plugins
 

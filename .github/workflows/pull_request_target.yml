@@ -28,7 +28,7 @@ jobs:
       matrix:
         include:
           - image: ghcr.io/artis3n/docker-amazonlinux2023-ansible:latest
-#          - image: geerlingguy/docker-rockylinux9-ansible:latest
+          - image: geerlingguy/docker-rockylinux9-ansible:latest
 #          - image: ghcr.io/artis3n/docker-rhel8-ansible:latest
 #          - image: ghcr.io/artis3n/docker-oraclelinux8-ansible:latest
           - image: geerlingguy/docker-ubuntu2404-ansible:latest
@@ -48,55 +48,55 @@ jobs:
     with:
       image: ${{ matrix.image }}
       command: ${{ matrix.command }}
-      scenario: 'role-device-default'
+      scenario: 'role-machine-default'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-state-absent:
-    name: "Run Molecule Scenario: role-device-state-absent"
+    name: "Run Molecule Scenario: role-machine-state-absent"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'role-device-state-absent'
+      scenario: 'role-machine-state-absent'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-skip-auth:
-    name: "Run Molecule Scenario: role-device-skip-authentication"
+    name: "Run Molecule Scenario: role-machine-skip-authentication"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'role-device-skip-authentication'
+      scenario: 'role-machine-skip-authentication'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-args:
-    name: "Run Molecule Scenario: role-device-args"
+    name: "Run Molecule Scenario: role-machine-args"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'role-device-args'
+      scenario: 'role-machine-args'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-state-present:
-    name: "Run Molecule Scenario: role-device-state-idempotency"
+    name: "Run Molecule Scenario: role-machine-state-idempotency"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'role-device-state-idempotency'
+      scenario: 'role-machine-state-idempotency'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-oauth:
-    name: "Run Molecule Scenario: role-device-oauth"
+    name: "Run Molecule Scenario: role-machine-oauth"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'role-device-oauth'
+      scenario: 'role-machine-oauth'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_OAUTH_CLIENT_SECRET }}
 
   molecule-strategy-free:
-    name: "Run Molecule Scenario: role-device-strategy-free"
+    name: "Run Molecule Scenario: role-machine-strategy-free"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: 'role-device-strategy-free'
+      scenario: 'role-machine-strategy-free'
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
@@ -108,10 +108,10 @@ jobs:
       fail-fast: false
       matrix:
         scenario:
-          - role-device-default
-          - role-device-state-absent
-          # - role-device-idempotent-up
-          - role-device-strategy-free
+          - role-machine-default
+          - role-machine-state-absent
+          # - role-machine-idempotent-up
+          - role-machine-strategy-free
 
     steps:
       # nosemgrep: yaml.github-actions.security.pull-request-target-code-checkout.pull-request-target-code-checkout

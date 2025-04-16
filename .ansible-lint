@@ -3,8 +3,8 @@ exclude_paths:
     - .github/
     - .idea/
     - .vscode/
-    - extensions/molecule/role-device-default/headscale.config.yaml
-    - extensions/molecule/role-device-default/init_tailscale_vars.yml
+    - extensions/molecule/role-machine-default/headscale.config.yaml
+    - extensions/molecule/role-machine-default/init_tailscale_vars.yml
 
 skip_list:
     - yaml[line-length]
