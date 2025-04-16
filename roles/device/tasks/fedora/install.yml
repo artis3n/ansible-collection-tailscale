@@ -27,7 +27,7 @@
   ansible.builtin.command: dnf config-manager addrepo --from-repofile={{ tailscale_dnf_repos[ansible_distribution] }}
   args:
     creates: /etc/yum.repos.d/tailscale.repo
-  when: ansible_facts['distribution_version'] | int >= 41
+  when: (ansible_distribution == 'Fedora') and (ansible_distribution_major_version | int >= 41)
 
 - name: Fedora | Install Tailscale
   become: true
