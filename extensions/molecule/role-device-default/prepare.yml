@@ -1,7 +1,7 @@
 ---
 - name: Prepare
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
   tasks:
     - name: Create Headscale user
       community.docker.docker_container_exec:
@@ -38,7 +38,7 @@
     # https://github.com/geerlingguy/docker-rockylinux9-ansible/issues/6#issuecomment-2805378491
     # https://github.com/geerlingguy/docker-fedora41-ansible/issues/2
     - name: TEMP | Fix due to PAM error in some upstream images
-      when: ansible_distribution == "Fedora"
+#      when: ansible_distribution == 'Fedora'
       become: true
       ansible.builtin.file:
         path: /etc/shadow
