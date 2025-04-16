@@ -1,0 +1,15 @@
+---
+# defaults file for ip_forwarding
+
+# Whether to enable IPv4 forwarding
+artis3n_tailscale_ip_forwarding_ipv4_state: present
+# Value for enabling IPv4 forwarding
+artis3n_tailscale_ip_forwarding_ipv4_value: 1
+# IPv4 sysctl.conf file location
+artis3n_tailscale_ip_forwarding_ipv4_sysctl_file: /etc/sysctl.conf
+# Whether to enable IPv6 forwarding
+artis3n_tailscale_ip_forwarding_ipv6_state: present
+# Value for enabling IPv6 forwarding
+artis3n_tailscale_ip_forwarding_ipv6_value: 1
+# IPv6 sysctl.conf file location
+artis3n_tailscale_ip_forwarding_ipv6_sysctl_file: /etc/sysctl.conf
