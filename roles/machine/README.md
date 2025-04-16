@@ -1,4 +1,4 @@
-# artis3n.tailscale.device  <!-- omit in toc -->
+# artis3n.tailscale.machine  <!-- omit in toc -->
 
 [![Ansible Role](https://img.shields.io/ansible/role/d/artis3n/tailscale)](https://galaxy.ansible.com/ui/standalone/roles/artis3n/tailscale/)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/artis3n)](https://github.com/sponsors/artis3n)
@@ -242,7 +242,7 @@ The `--authkey=` value will be redacted unless [`insecurely_log_authkey`](#insec
 - name: Servers
   hosts: all
   roles:
-    - role: artis3n.tailscale.device
+    - role: artis3n.tailscale.machine
       vars:
         # Example pulling the API key from the env vars on the host running Ansible
         tailscale_authkey: "{{ lookup('env', 'TAILSCALE_KEY') }}"
@@ -254,7 +254,7 @@ Enable Tailscale SSH:
 - name: Servers
   hosts: all
   roles:
-    - role: artis3n.tailscale.device
+    - role: artis3n.tailscale.machine
       vars:
         tailscale_authkey: "{{ lookup('env', 'TAILSCALE_KEY') }}"
         tailscale_args: "--ssh"
@@ -268,7 +268,7 @@ Pass arbitrary command-line arguments:
   tasks:
     - name: Use Headscale
       include_role:
-        name: artis3n.tailscale.device
+        name: artis3n.tailscale.machine
       vars:
         tailscale_args: "--login-server='http://localhost:8080'"
         tailscale_authkey: "{{ lookup('env', 'HEADSCALE_KEY') }}"
@@ -280,7 +280,7 @@ Get verbose output:
 - name: Servers
   hosts: all
   roles:
-    - role: artis3n.tailscale.device
+    - role: artis3n.tailscale.machine
       vars:
         verbose: true
         tailscale_authkey: "{{ lookup('env', 'TAILSCALE_KEY') }}"
@@ -292,7 +292,7 @@ Connect using an OAuth client secret:
 - name: Servers
   hosts: all
   roles:
-    - role: artis3n.tailscale.device
+    - role: artis3n.tailscale.machine
       vars:
         verbose: true
         tailscale_authkey: "{{ lookup('env', 'TAILSCALE_OAUTH_CLIENT_SECRET') }}"
@@ -309,7 +309,7 @@ Install Tailscale, but don't authenticate to the network:
 - name: Servers
   hosts: all
   roles:
-    - role: artis3n.tailscale.device
+    - role: artis3n.tailscale.machine
       vars:
         tailscale_up_skip: true
 ```
@@ -320,7 +320,7 @@ De-register and uninstall a Tailscale node:
 - name: Servers
   hosts: all
   roles:
-    - role: artis3n.tailscale.device
+    - role: artis3n.tailscale.machine
       vars:
         state: absent
 ```

@@ -26,7 +26,7 @@ platforms:
     networks:
       - name: headscale
     volumes:
-      - "${MOLECULE_PROJECT_DIRECTORY}/molecule/role-device-default/headscale.config.yaml:/etc/headscale/config.yaml"
+      - "${MOLECULE_PROJECT_DIRECTORY}/molecule/role-machine-default/headscale.config.yaml:/etc/headscale/config.yaml"
 provisioner:
   name: ansible
   env:
@@ -35,7 +35,7 @@ provisioner:
 verifier:
   name: ansible
 scenario:
-  name: role-device-default
+  name: role-machine-default
   test_sequence:
     - dependency
     - destroy

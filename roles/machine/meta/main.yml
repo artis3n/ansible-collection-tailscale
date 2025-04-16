@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: tailscale
   author: artis3n
-  description: Install a Tailscale device.
+  description: Install a Tailscale machine.
   license: MIT
 
   min_ansible_version: "2.18"
@@ -14,7 +14,7 @@ galaxy_info:
 
 # argument_specs:
 #   main:
-#     short_description: Install a Tailscale device
+#     short_description: Install a Tailscale machine
 #     version-added: '0.1.0'
 #     author: artis3n
 #     options:

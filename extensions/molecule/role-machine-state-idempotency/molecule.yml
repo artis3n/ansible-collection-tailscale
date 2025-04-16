@@ -6,40 +6,8 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: instance-1
-    groups:
-      - instances
+  - name: instance
     image: ${MOLECULE_DISTRO:-geerlingguy/docker-ubuntu2404-ansible:latest}
-    command: ${MOLECULE_COMMAND:-/usr/sbin/init}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    docker_networks:
-      - name: headscale
-    networks:
-      - name: bridge
-      - name: headscale
-    cgroupns_mode: host
-    privileged: true
-    pre_build_image: true
-  - name: instance-2
-    groups:
-      - instances
-    image: 'ghcr.io/artis3n/docker-amazonlinux2023-ansible:latest'
-    command: ${MOLECULE_COMMAND:-/usr/sbin/init}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    docker_networks:
-      - name: headscale
-    networks:
-      - name: bridge
-      - name: headscale
-    cgroupns_mode: host
-    privileged: true
-    pre_build_image: true
-  - name: instance-3
-    groups:
-      - instances
-    image: 'geerlingguy/docker-debian12-ansible:latest'
     command: ${MOLECULE_COMMAND:-/usr/sbin/init}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
@@ -58,18 +26,18 @@ platforms:
     networks:
       - name: headscale
     volumes:
-      - "${MOLECULE_PROJECT_DIRECTORY}/molecule/role-device-default/headscale.config.yaml:/etc/headscale/config.yaml"
+      - "${MOLECULE_PROJECT_DIRECTORY}/molecule/role-machine-default/headscale.config.yaml:/etc/headscale/config.yaml"
 provisioner:
   name: ansible
   playbooks:
-    prepare: ../role-device-default/prepare.yml
+    prepare: ../role-machine-default/prepare.yml
   env:
     # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
     ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies"
 verifier:
   name: ansible
 scenario:
-  name: role-device-strategy-free
+  name: role-machine-state-idempotency
   test_sequence:
     - dependency
     - destroy

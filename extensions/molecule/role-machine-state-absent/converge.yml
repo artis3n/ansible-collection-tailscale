@@ -3,18 +3,18 @@
   hosts: instance
   tasks:
     - name: Init tailscale credentials variables
-      ansible.builtin.include_tasks: ../role-device-default/init_tailscale_vars.yml
+      ansible.builtin.include_tasks: ../role-machine-default/init_tailscale_vars.yml
 
     # Should be idempotent and also not error out if run before Tailscale has ever been installed
     - name: Uninstall Tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale.device
+        name: artis3n.tailscale.machine
       vars:
         state: absent
 
     - name: Install Tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale.device
+        name: artis3n.tailscale.machine
 
     # Force these to run before we start uninstalling things
     - name: Flush Handlers
@@ -34,6 +34,6 @@
 
     - name: Uninstall Tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale.device
+        name: artis3n.tailscale.machine
       vars:
         state: absent
