@@ -37,9 +37,10 @@ jobs:
           - image: geerlingguy/docker-debian12-ansible:latest
           - image: geerlingguy/docker-debian11-ansible:latest
             command: /lib/systemd/systemd
-          - image: geerlingguy/docker-fedora39-ansible:latest
+          - image: geerlingguy/docker-fedora40-ansible:latest
+          - image: geerlingguy/docker-fedora41-ansible:latest
           - image: ghcr.io/artis3n/docker-arch-ansible:latest
-          - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
+          # - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
           # - image: ghcr.io/artis3n/docker-opensuse-leap-ansible:latest
           #   command: /lib/systemd/systemd
 
