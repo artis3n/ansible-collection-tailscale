@@ -34,3 +34,13 @@
         path: /etc/hosts
         line: "{{ headscale_info.container.NetworkSettings.Networks.headscale.IPAddress }}  headscale"
         unsafe_writes: true  # Hosts file in the docker container can't be written to atomically
+
+    # https://github.com/geerlingguy/docker-rockylinux9-ansible/issues/6#issuecomment-2805378491
+    # https://github.com/geerlingguy/docker-fedora41-ansible/issues/2
+    - name: TEMP | Fix due to PAM error in some upstream images
+      when: ansible_distribution == "Fedora"
+      become: true
+      ansible.builtin.file:
+        path: /etc/shadow
+        # Bug in some upstream distros, /etc/shadow has no file perms in container image
+        mode: '400'
