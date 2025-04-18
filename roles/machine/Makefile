@@ -64,7 +64,7 @@ test-reinstall:
 ifndef TAILSCALE_CI_KEY
 	$(error TAILSCALE_CI_KEY is not set)
 else
-	poetry run molecule test --scenario-name reinstall
+	cd ../../extensions && uv run molecule test --scenario-name role-machine-reinstall
 endif
 
 .PHONY: test-headscale
