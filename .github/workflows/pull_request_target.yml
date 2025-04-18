@@ -100,6 +100,14 @@ jobs:
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
+  molecule-reinstall:
+    name: "Run Molecule Scenario: reinstall"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      scenario: "reinstall"
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
   molecule-headscale:
     name: "Test Headscale Compatibility"
     runs-on: ubuntu-24.04
