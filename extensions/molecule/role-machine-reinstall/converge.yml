@@ -7,7 +7,7 @@
 
     - name: Install latest Tailscale version using artis3n.tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale
+        name: artis3n.tailscale.machine
       vars:
         state: latest
 
@@ -17,12 +17,12 @@
 
     - name: Remove Tailscale using artis3n.tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale
+        name: artis3n.tailscale.machine
       vars:
         state: absent
 
     - name: Reinstall Tailscale using artis3n.tailscale
       ansible.builtin.include_role:
-        name: artis3n.tailscale
+        name: artis3n.tailscale.machine
       vars:
         state: latest
