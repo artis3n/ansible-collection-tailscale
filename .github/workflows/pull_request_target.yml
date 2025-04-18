@@ -101,10 +101,10 @@ jobs:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
   molecule-reinstall:
-    name: "Run Molecule Scenario: reinstall"
+    name: "Run Molecule Scenario: role-machine-reinstall"
     uses: ./.github/workflows/molecule.yml
     with:
-      scenario: "reinstall"
+      scenario: "role-machine-reinstall"
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
