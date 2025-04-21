@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: Daniel Brennand
+  description: Enable IPv4 and IPv6 forwarding.
+  license: MIT
+  min_ansible_version: "2.18"
+  galaxy_tags:
+    - ip_forwarding
+
+dependencies: []
