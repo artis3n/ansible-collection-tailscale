@@ -24,8 +24,7 @@ lint:
 	uv run ansible-lint --profile=production
 
 .PHONY: test
-test:
-	cd roles/machine && make test-default
+test: testd
 	cd roles/machine && make test-absent
 
 .PHONY: testd

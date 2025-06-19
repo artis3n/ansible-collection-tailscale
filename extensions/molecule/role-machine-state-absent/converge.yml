@@ -32,7 +32,7 @@
           - "'Logged out.' not in tailscale_status.stdout"
           - "'not logged in' not in tailscale_status.stdout"
 
-    - name: Uninstall Tailscale
+    - name: Uninstall Tailscale again
       ansible.builtin.include_role:
         name: artis3n.tailscale.machine
       vars:
