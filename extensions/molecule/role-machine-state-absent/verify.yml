@@ -30,7 +30,7 @@
         path: "/var/lib/tailscale/tailscaled.state"
       register: ts_state_dir
 
-    - name: Assertions
+    - name: More assertions
       ansible.builtin.assert:
         that:
           - not ts_state_dir.stat.exists
