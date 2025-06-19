@@ -28,9 +28,8 @@ jobs:
       matrix:
         include:
           - image: ghcr.io/artis3n/docker-amazonlinux2023-ansible:latest
+          - image: geerlingguy/docker-rockylinux10-ansible
           - image: geerlingguy/docker-rockylinux9-ansible:latest
-#          - image: ghcr.io/artis3n/docker-rhel8-ansible:latest
-#          - image: ghcr.io/artis3n/docker-oraclelinux8-ansible:latest
           - image: geerlingguy/docker-ubuntu2404-ansible:latest
           - image: ghcr.io/fkonradmain/docker-linuxmint22-ansible:latest
           - image: geerlingguy/docker-ubuntu2204-ansible:latest
@@ -108,44 +107,45 @@ jobs:
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
-  molecule-headscale:
-    name: "Test Headscale Compatibility"
-    runs-on: ubuntu-24.04
-    environment: E2E
-    strategy:
-      fail-fast: false
-      matrix:
-        scenario:
-          - role-machine-default
-          - role-machine-state-absent
-          # - role-machine-idempotent-up
-          - role-machine-strategy-free
-
-    steps:
-      # nosemgrep: yaml.github-actions.security.pull-request-target-code-checkout.pull-request-target-code-checkout
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          # This hellish path is a combination of requirements from GitHub runners & molecule with ansible collections
-          path: '/home/runner/work/ansible-collection-tailscale/ansible-collection-tailscale/collections/ansible_collections/artis3n/tailscale'
-
-      # Technically, uv will manage python version but this action will cache it, making python installation faster
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v5
-        with:
-          python-version-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
-
-      - name: Install dependency manager
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-
-      - name: Install packages
-        run: uv sync --frozen
-
-      - name: Run scenario with Headscale
-        run: uv run molecule test --scenario-name ${{ matrix.scenario }}
-        working-directory: 'collections/ansible_collections/artis3n/tailscale/extensions'
-        env:
-          TAILSCALE_CI_KEY: "unused"
-          USE_HEADSCALE: "true"
+# Temporarily disable until https://github.com/juanfont/headscale/pull/2636 is released
+#  molecule-headscale:
+#    name: "Test Headscale Compatibility"
+#    runs-on: ubuntu-24.04
+#    environment: E2E
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        scenario:
+#          - role-machine-default
+#          - role-machine-state-absent
+#          # - role-machine-idempotent-up
+#          - role-machine-strategy-free
+#
+#    steps:
+#      # nosemgrep: yaml.github-actions.security.pull-request-target-code-checkout.pull-request-target-code-checkout
+#      - uses: actions/checkout@v4
+#        with:
+#          ref: ${{ github.event.pull_request.head.sha }}
+#          # This hellish path is a combination of requirements from GitHub runners & molecule with ansible collections
+#          path: '/home/runner/work/ansible-collection-tailscale/ansible-collection-tailscale/collections/ansible_collections/artis3n/tailscale'
+#
+#      # Technically, uv will manage python version but this action will cache it, making python installation faster
+#      - name: Set up Python 3.x
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
+#
+#      - name: Install dependency manager
+#        uses: astral-sh/setup-uv@v5
+#        with:
+#          enable-cache: true
+#
+#      - name: Install packages
+#        run: uv sync --frozen
+#
+#      - name: Run scenario with Headscale
+#        run: uv run molecule test --scenario-name ${{ matrix.scenario }}
+#        working-directory: 'collections/ansible_collections/artis3n/tailscale/extensions'
+#        env:
+#          TAILSCALE_CI_KEY: "unused"
+#          USE_HEADSCALE: "true"
