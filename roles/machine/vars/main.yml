@@ -26,6 +26,7 @@ tailscale_apt_dependencies:
   - gnupg
   - gnupg-agent
   - apt-transport-https
+  - python3-debian
   - python3-apt
 
 tailscale_debian_distro:
