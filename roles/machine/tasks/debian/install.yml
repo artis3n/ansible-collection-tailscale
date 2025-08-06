@@ -37,6 +37,7 @@
 - name: Debian | Install Tailscale
   become: true
   ansible.builtin.apt:
-    name: "{{ tailscale_package }}"
+    name: "{{ tailscale_package }} iproute2"
+    install_recommends: false
     update_cache: true
     state: "{{ state }}"
