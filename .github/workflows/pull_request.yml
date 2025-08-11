@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # This hellish path is a combination of requirements from GitHub runners & molecule with ansible collections
           path: '/home/runner/work/ansible-collection-tailscale/ansible-collection-tailscale/collections/ansible_collections/artis3n/tailscale'
