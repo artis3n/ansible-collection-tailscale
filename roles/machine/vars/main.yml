@@ -26,11 +26,8 @@ tailscale_apt_dependencies:
   - gnupg
   - gnupg-agent
   - apt-transport-https
+  - python3-debian
   - python3-apt
-
-tailscale_legacy_apt_dependencies:
-  # Only install on legacy Debian systems
-  - python-apt
 
 tailscale_debian_distro:
   pop!_os: ubuntu

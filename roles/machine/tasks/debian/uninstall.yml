@@ -16,12 +16,23 @@
     name: "{{ tailscale_package }}"
     state: absent
 
-- name: Debian | Remove Tailscale Deb
+- name: Debian | Remove Legacy Tailscale Deb
   become: true
   ansible.builtin.apt_repository:
     repo: "{{ tailscale_apt_deb }}"
     state: absent
     codename: "{{ apt_codename }}"
+
+- name: Debian | Remove Tailscale Repository
+  become: true
+  ansible.builtin.deb822_repository:
+    name: tailscale
+    types: deb
+    uris: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }}
+    suites: "{{ ansible_distribution_release }}"
+    components: main
+    signed_by: "{{ tailscale_apt_signkey }}"
+    state: absent
 
 - name: Debian | Remove Tailscale Signing Key from trusted.gpg
   become: true
@@ -29,8 +40,14 @@
     url: "{{ tailscale_apt_signkey }}"
     state: absent
 
-- name: Debian | Remove Tailscale Signing Key from keyrings
+- name: Debian | Remove Tailscale Signing Key from legacy keyrings path
   become: true
   ansible.builtin.file:
     path: "{{ tailscale_apt_keyring_path }}"
+    state: absent
+
+- name: Debian | Remove Tailscale Keyring
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/keyrings/tailscale.gpg
     state: absent
