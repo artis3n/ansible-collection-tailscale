@@ -45,6 +45,11 @@
     - state != "absent"
     - not tailscale_up_skip
 
+- name: Skipping manage binaries
+  ansible.builtin.debug:
+    msg: You have set 'tailscale_manage_binaries_skip', so no tailscale binaries will be installed or uninstalled on this node.
+  when: tailscale_manage_binaries_skip
+
 - name: Skipping Authentication
   ansible.builtin.debug:
     msg: You have set 'tailscale_up_skip', so this node will not authenticate to your Tailscale network.
