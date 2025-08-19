@@ -29,9 +29,9 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "ansible-lint~=25.7.0",
+    "ansible-lint~=25.8.1",
     "molecule~=25.7.0",
-    "molecule-plugins[docker]~=23.7.0",
+    "molecule-plugins[docker]~=25.8.12",
     "pre-commit>=4.1.0",
 ]
 
