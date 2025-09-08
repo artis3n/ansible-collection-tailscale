@@ -48,7 +48,7 @@ jobs:
 
       # Technically, uv will manage python version but this action will cache it, making python installation faster
       - name: Set up Python 3.x
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
 
