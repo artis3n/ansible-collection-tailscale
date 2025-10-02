@@ -3,6 +3,8 @@
 
 # Whether to install or uninstall Tailscale. Either 'latest', 'present', or 'absent'
 state: latest
+# Whether to skip the tailscale binaries installation and uninstallation
+tailscale_manage_binaries_skip: false
 # Required Node auth key to authenticate to Tailscale
 tailscale_authkey: ""
 # Optional command-line arguments for 'tailscale up'

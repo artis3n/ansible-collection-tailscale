@@ -1,26 +1,29 @@
 ---
-- name: Install | CentOS and related families
-  when: >
-    ansible_distribution in tailscale_centos_family_distros
-  ansible.builtin.include_tasks: centos/install.yml
+- name: Install | Tailscale binaries
+  when: "not tailscale_manage_binaries_skip"
+  block:
+    - name: Install | CentOS and related families
+      when: >
+        ansible_distribution in tailscale_centos_family_distros
+      ansible.builtin.include_tasks: centos/install.yml
 
-- name: Install | Debian and related families
-  when: ansible_distribution in tailscale_debian_family_distros
-  ansible.builtin.include_tasks: debian/install.yml
+    - name: Install | Debian and related families
+      when: ansible_distribution in tailscale_debian_family_distros
+      ansible.builtin.include_tasks: debian/install.yml
 
-- name: Install | Fedora and related families
-  when: >
-    ansible_distribution == 'Fedora'
-    or (ansible_distribution == 'Amazon' and ansible_distribution_major_version | int >= 2023)
-  ansible.builtin.include_tasks: fedora/install.yml
+    - name: Install | Fedora and related families
+      when: >
+        ansible_distribution == 'Fedora'
+        or (ansible_distribution == 'Amazon' and ansible_distribution_major_version | int >= 2023)
+      ansible.builtin.include_tasks: fedora/install.yml
 
-- name: Install | Arch
-  when: ansible_distribution == 'Archlinux'
-  ansible.builtin.include_tasks: arch/install.yml
+    - name: Install | Arch
+      when: ansible_distribution == 'Archlinux'
+      ansible.builtin.include_tasks: arch/install.yml
 
-- name: Install | OpenSUSE
-  when: ansible_distribution in tailscale_opensuse_family_distros
-  ansible.builtin.include_tasks: opensuse/install.yml
+    - name: Install | OpenSUSE
+      when: ansible_distribution in tailscale_opensuse_family_distros
+      ansible.builtin.include_tasks: opensuse/install.yml
 
 - name: Install | Remove legacy state folder
   ansible.builtin.file:
