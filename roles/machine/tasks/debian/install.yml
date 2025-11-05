@@ -1,7 +1,7 @@
 ---
 - name: Debian | Include apt codename generation tasks
   ansible.builtin.include_tasks:
-    file: apt-codename.yml
+    file: ./apt-codename.yml
 
 - name: Debian | Apt Dependencies
   become: true
