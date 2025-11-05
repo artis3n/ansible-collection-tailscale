@@ -22,7 +22,7 @@ classifiers = [
     "Topic :: System",
     "Topic :: System :: Networking",
 ]
-requires-python = "~=3.13"
+requires-python = "~=3.14.0"
 dependencies = [
     "ansible~=12.0.0",
 ]
