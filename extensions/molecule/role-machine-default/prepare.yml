@@ -1,12 +1,11 @@
 ---
 - name: TEMP | Prepare
-  hosts: instance
+  hosts: instance*
   gather_facts: true
   tasks:
     # https://github.com/geerlingguy/docker-rockylinux9-ansible/issues/6#issuecomment-2805378491
     # https://github.com/geerlingguy/docker-fedora41-ansible/issues/2
     - name: TEMP | Fix due to PAM error in some upstream images
-#      when: ansible_distribution == 'Fedora' or ansible_distribution == 'Rocky' or ansible_distribution == 'Amazon'
       # Explicitly don't try to become because that will trigger the broken PAM error
       # become: true
       # Bug in some upstream distros, /etc/shadow has no file perms in container image
