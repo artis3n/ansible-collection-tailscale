@@ -41,8 +41,7 @@ jobs:
           - image: geerlingguy/docker-fedora41-ansible:latest
           - image: carlodepieri/docker-archlinux-ansible:latest
           # - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
-          # - image: ghcr.io/artis3n/docker-opensuse-leap-ansible:latest
-          #   command: /lib/systemd/systemd
+          - image: geerlingguy/docker-opensuseleap15-ansible:latest
 
     uses: ./.github/workflows/molecule.yml
     with:
