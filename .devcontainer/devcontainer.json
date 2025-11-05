@@ -4,6 +4,16 @@
 	"name": "Python 3",
 	"image": "mcr.microsoft.com/devcontainers/python:3.13-bookworm",
 
+	"secrets": {
+		"TAILSCALE_CI_KEY": {
+			"description": "The Tailscale API key used to authenticate test nodes.",
+			"documentationUrl": "https://tailscale.com/kb/1101/api#authentication"
+		}
+	},
+
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/collections/ansible_collections/artis3n/tailscale,type=bind,consistency=cached",
+	"workspaceFolder": "/workspaces/collections/ansible_collections/artis3n/tailscale",
+
 	"features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
 		"ghcr.io/devcontainers/features/git:1": {},
@@ -17,6 +27,10 @@
 	"onCreateCommand": "sudo apt update && sudo apt full-upgrade -y",
 	"postCreateCommand": "pipx install uv",
 	"postStartCommand": "git pull --prune && uv sync --frozen",
+
+	"remoteEnv": {
+		"ANSIBLE_CONFIG": "/workspaces/ansible-collection-tailscale/ansible.cfg"
+	},
 
 	// Configure tool-specific properties.
 	"customizations": {
