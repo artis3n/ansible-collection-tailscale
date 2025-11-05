@@ -11,9 +11,6 @@
 		}
 	},
 
-	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/collections/ansible_collections/artis3n/tailscale,type=bind,consistency=cached",
-	"workspaceFolder": "/workspaces/collections/ansible_collections/artis3n/tailscale",
-
 	"features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
 		"ghcr.io/devcontainers/features/git:1": {},
@@ -24,13 +21,18 @@
 		}
 	},
 
+	// This is necessary to make Ansible collection patching work in a GitHub Codespace environment.
+	// Cannot vouch for its compatibility with other devcontainer environments.
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/collections/ansible_collections/artis3n/tailscale,type=bind,consistency=cached",
+	"workspaceFolder": "/workspaces/collections/ansible_collections/artis3n/tailscale",
+
+	"remoteEnv": {
+		"ANSIBLE_CONFIG": "/workspaces/collections/ansible_collections/artis3n/tailscale/ansible.cfg"
+	},
+
 	"onCreateCommand": "sudo apt update && sudo apt full-upgrade -y",
 	"postCreateCommand": "pipx install uv",
 	"postStartCommand": "git pull --prune && uv sync --frozen",
-
-	"remoteEnv": {
-		"ANSIBLE_CONFIG": "/workspaces/ansible-collection-tailscale/ansible.cfg"
-	},
 
 	// Configure tool-specific properties.
 	"customizations": {
