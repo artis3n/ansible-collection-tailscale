@@ -33,15 +33,16 @@ jobs:
           - image: geerlingguy/docker-ubuntu2404-ansible:latest
           - image: ghcr.io/fkonradmain/docker-linuxmint22-ansible:latest
           - image: geerlingguy/docker-ubuntu2204-ansible:latest
+          - image: geerlingguy/docker-debian13-ansible:latest
           - image: geerlingguy/docker-debian12-ansible:latest
           - image: geerlingguy/docker-debian11-ansible:latest
             command: /lib/systemd/systemd
-          - image: geerlingguy/docker-fedora40-ansible:latest
+          - image: geerlingguy/docker-fedora43-ansible:latest
+          - image: geerlingguy/docker-fedora42-ansible:latest
           - image: geerlingguy/docker-fedora41-ansible:latest
-          - image: ghcr.io/artis3n/docker-arch-ansible:latest
-          # - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
-          # - image: ghcr.io/artis3n/docker-opensuse-leap-ansible:latest
-          #   command: /lib/systemd/systemd
+          - image: carlodepieri/docker-archlinux-ansible:latest
+          - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
+          - image: geerlingguy/docker-opensuseleap15-ansible:latest
 
     uses: ./.github/workflows/molecule.yml
     with:

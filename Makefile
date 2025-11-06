@@ -3,7 +3,6 @@
 # Install uv via your preferred method: https://docs.astral.sh/uv/getting-started/installation/
 .PHONY: install
 install:
-	uv python install --python-preference managed
 	uv sync
 	uv run pre-commit install --install-hooks
 	uv run ansible-galaxy install -r requirements.yml

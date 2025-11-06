@@ -4,6 +4,13 @@
 	"name": "Python 3",
 	"image": "mcr.microsoft.com/devcontainers/python:3.13-bookworm",
 
+	"secrets": {
+		"TAILSCALE_CI_KEY": {
+			"description": "The Tailscale API key used to authenticate test nodes.",
+			"documentationUrl": "https://tailscale.com/kb/1101/api#authentication"
+		}
+	},
+
 	"features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
 		"ghcr.io/devcontainers/features/git:1": {},
@@ -12,6 +19,15 @@
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"configureZshAsDefaultShell": true
 		}
+	},
+
+	// This is necessary to make Ansible collection patching work in a GitHub Codespace environment.
+	// Cannot vouch for its compatibility with other devcontainer environments.
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/collections/ansible_collections/artis3n/tailscale,type=bind,consistency=cached",
+	"workspaceFolder": "/workspaces/collections/ansible_collections/artis3n/tailscale",
+
+	"remoteEnv": {
+		"ANSIBLE_CONFIG": "/workspaces/collections/ansible_collections/artis3n/tailscale/ansible.cfg"
 	},
 
 	"onCreateCommand": "sudo apt update && sudo apt full-upgrade -y",
