@@ -6,3 +6,6 @@
 .ansible-dependencies
 # Temporay: https://github.com/ansible/ansible-lint/issues/4533
 .ansible
+
+# For direnv configuration
+.envrc

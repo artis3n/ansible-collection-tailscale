@@ -4,6 +4,8 @@ This authkey is stored in a [GitHub Action secret][] with the name `TAILSCALE_CI
 
 To test this role locally, store the Tailscale ephemeral auth key in a `TAILSCALE_CI_KEY` env var and, if running the `oauth` Molecule scenario, add an OAuth client secret in a `TAILSCALE_OAUTH_CLIENT_SECRET` env var.
 
+Recommended: install `direnv` and configure a `.envrc` file using `.envrc.example` as an example. `direnv` will automatically prepare your local environment when working inside this project.
+
 Alternatively for [Molecule][] testing, you can use a [Headscale][] container that is spun up as part of the create/prepare steps. To do this, set a `USE_HEADSCALE` env variable.
 
 For example:

@@ -1,0 +1,4 @@
+TAILSCALE_CI_KEY="your tailscale API key"
+# example pulling from a secure source e.g. 1password
+TAILSCALE_CI_KEY="$(op read 'op://Personal/Tailscale/API Key')"
+export TAILSCALE_CI_KEY
