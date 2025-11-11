@@ -12,6 +12,11 @@
       "groupSlug": "github-actions"
     },
     {
+      "matchManagers": ["pre-commit"],
+      "groupName": "pre-commit hooks",
+      "groupSlug": "pre-commit"
+    },
+    {
       "description": "Group Python versions",
       "groupName": "Python version",
       "groupSlug": "python-version",
@@ -35,8 +40,9 @@
     {
       "description": "Group devcontainer dependencies excluding python version",
       "groupName": "devcontainer-deps",
+      "groupSlug": "devcontainer-features",
       "matchManagers": ["devcontainer"],
-      "matchPackageNames": ["!mcr.microsoft.com/devcontainers/python"],
+      "matchPackageNames": ["!mcr.microsoft.com/devcontainers/python"]
     }
   ]
 }
