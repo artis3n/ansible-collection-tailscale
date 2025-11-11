@@ -8,6 +8,9 @@
   },
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
+  "minimumReleaseAge": "14 days",
+  "internalChecksFilter": "strict",
+  "prCreation": "not-pending",
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
@@ -24,7 +27,8 @@
       "groupName": "Python version",
       "groupSlug": "python-version",
       "matchManagers": ["pyenv", "pep621", "devcontainer"],
-      "matchPackageNames": ["python", "mcr.microsoft.com/devcontainers/python"]
+      "matchPackageNames": ["python", "mcr.microsoft.com/devcontainers/python"],
+      "minimumReleaseAge": "60 days"
     },
     {
       "description": "Group runtime/production python deps",
