@@ -3,6 +3,8 @@
   "extends": [
     "config:recommended"
   ],
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
@@ -26,7 +28,7 @@
     {
       "description": "Group non-production/dev python deps",
       "matchManagers": ["pep621"],
-      "matchDepTypes": ["dependencies-dev", "dev"],
+      "matchDepTypes": ["dependency-groups"],
       "groupName": "Development dependencies",
       "groupSlug": "python-deps-dev"
     },
