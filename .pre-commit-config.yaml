@@ -21,6 +21,16 @@ repos:
     hooks:
       - id: uv-lock
 
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.8
+    hooks:
+      - id: actionlint-docker
+
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 42.6.0
+    hooks:
+      - id: renovate-config-validator
+
   - repo: https://github.com/ansible/ansible-lint
     rev: v25.9.2
     hooks:
@@ -28,8 +38,3 @@ repos:
         files: \.(yaml|yml)$
         args:
           - '--profile=production'
-
-  - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.8
-    hooks:
-      - id: actionlint-docker
