@@ -20,7 +20,8 @@ update:
 
 .PHONY: lint
 lint:
-	uv run ansible-lint --profile=production
+	#uv run ansible-lint --profile=production
+	uv run pre-commit run -a
 
 .PHONY: test
 test: testd
