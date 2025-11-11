@@ -2,5 +2,50 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "pre-commit": {
+    "enabled": true
+  },
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions Updates",
+      "groupSlug": "github-actions"
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "groupName": "pre-commit hooks",
+      "groupSlug": "pre-commit"
+    },
+    {
+      "description": "Group Python versions",
+      "groupName": "Python version",
+      "groupSlug": "python-version",
+      "matchManagers": ["pyenv", "pep621", "devcontainer"],
+      "matchPackageNames": ["python", "mcr.microsoft.com/devcontainers/python"]
+    },
+    {
+      "description": "Group runtime/production python deps",
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["dependencies"],
+      "groupName": "Production dependencies",
+      "groupSlug": "python-deps-prod"
+    },
+    {
+      "description": "Group non-production/dev python deps",
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["dependency-groups"],
+      "groupName": "Development dependencies",
+      "groupSlug": "python-deps-dev"
+    },
+    {
+      "description": "Group devcontainer dependencies excluding python version",
+      "groupName": "devcontainer-deps",
+      "groupSlug": "devcontainer-features",
+      "matchManagers": ["devcontainer"],
+      "matchPackageNames": ["!mcr.microsoft.com/devcontainers/python"]
+    }
   ]
 }
