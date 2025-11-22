@@ -14,7 +14,7 @@ jobs:
     concurrency: collection-release
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Publish to Ansible Galaxy
         uses: artis3n/ansible_galaxy_collection@v2
