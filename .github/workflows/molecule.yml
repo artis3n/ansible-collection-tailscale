@@ -40,7 +40,7 @@ jobs:
 
     steps:
       # nosemgrep: yaml.github-actions.security.pull-request-target-code-checkout.pull-request-target-code-checkout
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           # This hellish path is a combination of requirements from GitHub runners & molecule with ansible collections
