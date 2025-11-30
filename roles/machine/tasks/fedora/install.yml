@@ -17,21 +17,21 @@
 
 - name: Fedora | Add DNF Repo (Legacy)
   become: true
-  ansible.builtin.command: dnf config-manager --add-repo {{ tailscale_dnf_repos[ansible_distribution] }}
+  ansible.builtin.command: dnf config-manager --add-repo {{ tailscale_dnf_repos[ansible_facts.distribution] }}
   args:
     creates: /etc/yum.repos.d/tailscale.repo
   when: >
-    (ansible_distribution == 'Fedora' and ansible_facts['distribution_version'] | int <= 40)
-    or ansible_distribution == 'Amazon'
+    (ansible_facts.distribution == 'Fedora' and ansible_facts['distribution_version'] | int <= 40)
+    or ansible_facts.distribution == 'Amazon'
 
 - name: Fedora | Add DNF Repo
   become: true
-  ansible.builtin.command: dnf config-manager addrepo --from-repofile={{ tailscale_dnf_repos[ansible_distribution] }}
+  ansible.builtin.command: dnf config-manager addrepo --from-repofile={{ tailscale_dnf_repos[ansible_facts.distribution] }}
   args:
     creates: /etc/yum.repos.d/tailscale.repo
   when:
     # Amazon Linux 2023 also uses the Fedora install steps
-    - ansible_distribution == 'Fedora'
+    - ansible_facts.distribution == 'Fedora'
     - ansible_facts['distribution_version'] | int >= 41
 
 - name: Fedora | Install Tailscale

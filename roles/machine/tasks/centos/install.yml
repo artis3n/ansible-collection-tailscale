@@ -28,7 +28,7 @@
 - name: CentOS | Add Tailscale Repo
   become: true
   when: not tailscale_repo_state.stat.exists
-  ansible.builtin.command: dnf config-manager --add-repo {{ tailscale_yum_repos[ansible_distribution] }}
+  ansible.builtin.command: dnf config-manager --add-repo {{ tailscale_yum_repos[ansible_facts.distribution] }}
   args:
     creates: /etc/yum.repos.d/tailscale.repo
   register: add_tailscale_repo

@@ -78,21 +78,21 @@
         name: lsb-release
         cache_valid_time: 3600
         state: present
-      when: ansible_distribution in tailscale_debian_family_distros or ansible_distribution == 'ArchLinux'
+      when: ansible_facts.distribution in tailscale_debian_family_distros or ansible_facts.distribution == 'ArchLinux'
 
     - name: Install lsb_release
       become: true
       ansible.builtin.package:
         name: redhat-lsb-core
         state: present
-      when: ansible_distribution in tailscale_centos_family_distros or ansible_distribution == 'Fedora'
+      when: ansible_facts.distribution in tailscale_centos_family_distros or ansible_facts.distribution == 'Fedora'
 
     - name: Refresh Setup
       ansible.builtin.setup:
 
 - name: Operating System
   ansible.builtin.debug:
-    msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }} ({{ ansible_distribution_release }})"
+    msg: "{{ ansible_facts.distribution }} {{ ansible_facts.distribution_major_version }} ({{ ansible_facts.distribution_release }})"
 
 - name: Install Tailscale
   when: state == "present" or state == "latest"

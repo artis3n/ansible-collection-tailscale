@@ -38,20 +38,20 @@ tailscale_debian_distro:
 
 tailscale_apt_keyring_path: /usr/share/keyrings/tailscale-archive-keyring.gpg
 
-tailscale_apt_deb: deb [signed-by={{ tailscale_apt_keyring_path }}] https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }} {{ apt_codename | lower }} main
+tailscale_apt_deb: deb [signed-by={{ tailscale_apt_keyring_path }}] https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_facts.distribution | lower] }} {{ apt_codename | lower }} main
 
-tailscale_apt_signkey: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }}/{{ apt_codename | lower }}.noarmor.gpg
+tailscale_apt_signkey: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_facts.distribution | lower] }}/{{ apt_codename | lower }}.noarmor.gpg
 
 tailscale_yum_dependencies:
   - yum-utils
   - gnupg
 
 tailscale_yum_repos:
-  CentOS: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
-  RedHat: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ "rhel" if ansible_distribution_major_version | int == 8 else "centos" }}/{{ ansible_distribution_major_version }}/tailscale.repo
-  OracleLinux: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
-  Rocky: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
-  AlmaLinux: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_distribution_major_version }}/tailscale.repo
+  CentOS: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_facts.distribution_major_version }}/tailscale.repo
+  RedHat: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ "rhel" if ansible_facts.distribution_major_version | int == 8 else "centos" }}/{{ ansible_facts.distribution_major_version }}/tailscale.repo
+  OracleLinux: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_facts.distribution_major_version }}/tailscale.repo
+  Rocky: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_facts.distribution_major_version }}/tailscale.repo
+  AlmaLinux: https://pkgs.tailscale.com/{{ release_stability | lower }}/centos/{{ ansible_facts.distribution_major_version }}/tailscale.repo
 
 tailscale_dnf_dependencies:
   - python-dnf
@@ -63,9 +63,9 @@ tailscale_dnf_repos:
   Amazon: https://pkgs.tailscale.com/{{ release_stability | lower }}/fedora/tailscale.repo
   Fedora: https://pkgs.tailscale.com/{{ release_stability | lower }}/fedora/tailscale.repo
 
-tailscale_opensuse_leap_key: https://pkgs.tailscale.com/{{ release_stability | lower }}/opensuse/leap/{{ ansible_distribution_version }}/repo.gpg
-tailscale_opensuse_leap_repository: https://pkgs.tailscale.com/stable/opensuse/leap/{{ ansible_distribution_version }}/tailscale.repo
+tailscale_opensuse_leap_key: https://pkgs.tailscale.com/{{ release_stability | lower }}/opensuse/leap/{{ ansible_facts.distribution_version }}/repo.gpg
+tailscale_opensuse_leap_repository: https://pkgs.tailscale.com/stable/opensuse/leap/{{ ansible_facts.distribution_version }}/tailscale.repo
 tailscale_opensuse_tumbleweed_key: https://pkgs.tailscale.com/{{ release_stability | lower }}/opensuse/tumbleweed/repo.gpg
 tailscale_opensuse_tumbleweed_repository: https://pkgs.tailscale.com/{{ release_stability | lower }}/opensuse/tumbleweed/tailscale.repo
 
-tailscale_original_distribution_major_version: "{{ ansible_distribution_major_version }}"
+tailscale_original_distribution_major_version: "{{ ansible_facts.distribution_major_version }}"
