@@ -28,8 +28,8 @@
   ansible.builtin.deb822_repository:
     name: tailscale
     types: deb
-    uris: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_distribution | lower] }}
-    suites: "{{ ansible_distribution_release }}"
+    uris: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_facts.distribution | lower] }}
+    suites: "{{ ansible_facts.distribution_release }}"
     components: main
     signed_by: "{{ tailscale_apt_signkey }}"
     state: absent

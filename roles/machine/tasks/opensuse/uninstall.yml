@@ -8,7 +8,7 @@
     key: "{{ tailscale_opensuse_key }}"
 
 - name: OpenSUSE | Remove Tumbleweed
-  when: ansible_distribution == "openSUSE Tumbleweed"
+  when: ansible_facts.distribution == "openSUSE Tumbleweed"
   block:
     - name: OpenSUSE | Remove Tumbleweed Repo Key
       become: true
@@ -23,7 +23,7 @@
         state: absent
 
 - name: OpenSUSE | Remove Leap
-  when: ansible_distribution == "openSUSE Leap"
+  when: ansible_facts.distribution == "openSUSE Leap"
   block:
     - name: OpenSUSE | Remove Leap Repo Key
       become: true

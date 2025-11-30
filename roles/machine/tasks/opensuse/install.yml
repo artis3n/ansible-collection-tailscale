@@ -1,6 +1,6 @@
 ---
 - name: OpenSUSE | Install Tumbleweed
-  when: ansible_distribution == "openSUSE Tumbleweed"
+  when: ansible_facts.distribution == "openSUSE Tumbleweed"
   block:
     - name: OpenSUSE | Install Tumbleweed Repo Key
       become: true
@@ -15,7 +15,7 @@
         state: present
 
 - name: OpenSUSE | Install Leap
-  when: ansible_distribution == "openSUSE Leap"
+  when: ansible_facts.distribution == "openSUSE Leap"
   block:
     - name: OpenSUSE | Install Leap Repo Key
       become: true
