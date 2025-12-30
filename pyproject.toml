@@ -24,7 +24,7 @@ classifiers = [
 ]
 requires-python = "~=3.13.0"
 dependencies = [
-    "ansible~=12.2.0",
+    "ansible~=13.2.0",
 ]
 
 [dependency-groups]
