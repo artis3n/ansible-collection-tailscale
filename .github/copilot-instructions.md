@@ -53,7 +53,7 @@ make install  # Uses uv to sync Python deps, install pre-commit hooks, and insta
 
 ### Testing with Molecule
 
-Tests run from [`extensions/`](../extensions/) directory following Molecule's best practices for testing Ansible Collections. The working directory path `collections/ansible_collections/artis3n/tailscale` must be maintained for collection resolution - this is required for Ansible to properly locate the collection and its dependencies.
+Tests are run from the [`extensions/`](../extensions/) directory. This follows Molecule's best practices for testing Ansible Collections. The working directory path `collections/ansible_collections/artis3n/tailscale` must be maintained for collection resolution. This requirement ensures that Ansible can properly locate the collection and its dependencies.
 
 #### Test Environment Variables
 - `TAILSCALE_CI_KEY`: Required ephemeral auth key for most scenarios
