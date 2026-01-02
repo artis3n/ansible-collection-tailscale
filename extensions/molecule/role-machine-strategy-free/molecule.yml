@@ -1,11 +1,5 @@
 ---
-dependency:
-  name: galaxy
-  options:
-    role-file: ${MOLECULE_PROJECT_DIRECTORY}/../requirements.yml
-    requirements-file: ${MOLECULE_PROJECT_DIRECTORY}/../../../requirements.yml
-driver:
-  name: docker
+# Common Molecule configuration is located at <project root>/.config/molecule/config.yml
 platforms:
   - name: instance-1
     groups:
@@ -60,29 +54,10 @@ platforms:
       - name: headscale
     volumes:
       - "${MOLECULE_PROJECT_DIRECTORY}/molecule/role-machine-default/headscale.config.yaml:/etc/headscale/config.yaml"
+
 provisioner:
-  name: ansible
   playbooks:
     prepare: ../role-machine-default/prepare.yml
-  config_options:
-    defaults:
-      # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
-      collections_path: ${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies
-      roles_path: ${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies/roles
-      deprecation_warnings: false
-      callback_result_format: yaml
-verifier:
-  name: ansible
+
 scenario:
   name: role-machine-strategy-free
-  test_sequence:
-    - dependency
-    - destroy
-    - syntax
-    - create
-    - prepare
-    - converge
-    - idempotence
-    - verify
-    - cleanup
-    - destroy

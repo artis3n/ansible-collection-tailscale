@@ -4,6 +4,7 @@
 
 - name: Determine Distribution Family | Set distribution family
   ansible.builtin.set_fact:
+    # ansible-lint-ignore: jinja[spacing]
     tailscale_distro_family: >-
       {%- if ansible_facts.distribution in tailscale_centos_family_distros -%}
       centos

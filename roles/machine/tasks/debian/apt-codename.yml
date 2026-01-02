@@ -1,4 +1,6 @@
 ---
+# This codename setup is used for off-brand Ubuntu/Debian distros like Linux Mint (https://github.com/artis3n/ansible-role-tailscale/pull/515).
+
 # Retrieve "ID_LIKE" from /etc/os-release
 # ID_LIKE has the following values, depending on the operating system
 # | OS               | ID_LIKE                |
@@ -18,8 +20,8 @@
   changed_when: false
 
 # Ubuntu and its derivatives all have a value called "UBUNTU_CODENAME" set in their "/etc/os-release"
-# This value points to the actual ubuntu Version.
-# Ansible does not pick up that value on setup. Usually it picks up "VERSION_CODENAME"
+# This value points to the actual ubuntu Version on distros like Linux Mint which have a custom VERSION_CODENAME that ansible reads by default as a fact.
+# Since Ansible does not read that natively, pull it ourselves.
 - name: Debian | Retrieve ubuntu_codename on Ubuntu derivatives
   check_mode: false
   ansible.builtin.command: >-
