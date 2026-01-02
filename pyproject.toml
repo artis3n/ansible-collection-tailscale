@@ -16,7 +16,6 @@ keywords = [
 classifiers = [
     "Framework :: Ansible",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.13",
     "Topic :: Internet",
     "Topic :: Security",
     "Topic :: System",
