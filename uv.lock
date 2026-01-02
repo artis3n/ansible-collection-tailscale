@@ -52,6 +52,19 @@ wheels = [
 ]
 
 [[package]]
+name = "ansible-creator"
+version = "25.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "jinja2" },
+    { name = "pyyaml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c4/fe/32f2b1325ad520b9341186f79ca1170e8b45a70d3f1d28076d8bcf40136f/ansible_creator-25.12.0.tar.gz", hash = "sha256:dedc26d4172e9e7ca339995932d69a4a0776ec5678ebd8eac576d5ddfa3b7259", size = 9763615, upload-time = "2025-12-02T15:42:38.755Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4f/df/8130d69f28cd3c735d34401ba07b4a7715560641dfcdd362995a91b3e5f0/ansible_creator-25.12.0-py3-none-any.whl", hash = "sha256:d34e5d90c3bd482018bf6f166180da034b8eced038a45d0aec6a7baebf73ed1d", size = 97951, upload-time = "2025-12-02T15:42:36.783Z" },
+]
+
+[[package]]
 name = "ansible-lint"
 version = "25.11.0"
 source = { registry = "https://pypi.org/simple" }
@@ -90,6 +103,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "ansible-creator" },
     { name = "ansible-lint" },
     { name = "molecule" },
     { name = "molecule-plugins", extra = ["docker"] },
@@ -101,6 +115,7 @@ requires-dist = [{ name = "ansible", specifier = "~=13.2.0" }]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "ansible-creator", specifier = ">=25.12.0" },
     { name = "ansible-lint", specifier = "~=25.11.0" },
     { name = "molecule", specifier = "~=25.11.0" },
     { name = "molecule-plugins", extras = ["docker"], specifier = "~=25.8.12" },
