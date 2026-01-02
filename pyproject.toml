@@ -1,7 +1,7 @@
 [project]
 name = "artis3n.tailscale"
 description = "Ansible collection to manage your Tailscale devices and tailnet."
-version = "1.1.0"
+version = "1.2.0"
 authors = [
     { name = "Ari Kalfus (artis3n)", email = "dev@artis3nal.com" },
 ]
