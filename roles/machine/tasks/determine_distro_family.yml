@@ -1,0 +1,30 @@
+---
+# Determine which distribution family this system belongs to
+# Sets: tailscale_distro_family fact
+
+- name: Determine Distribution Family | Set distribution family
+  ansible.builtin.set_fact:
+    tailscale_distro_family: >-
+      {%- if ansible_facts.distribution in tailscale_centos_family_distros -%}
+      centos
+      {%- elif ansible_facts.distribution in tailscale_debian_family_distros -%}
+      debian
+      {%- elif ansible_facts.distribution == 'Fedora' or (ansible_facts.distribution == 'Amazon' and ansible_facts.distribution_major_version | int >= 2023) -%}
+      fedora
+      {%- elif ansible_facts.distribution == 'Archlinux' -%}
+      arch
+      {%- elif ansible_facts.distribution in tailscale_opensuse_family_distros -%}
+      opensuse
+      {%- else -%}
+      unknown
+      {%- endif -%}
+
+- name: Determine Distribution Family | Display detected family
+  ansible.builtin.debug:
+    msg: "Detected distribution family: {{ tailscale_distro_family }}"
+  when: verbose
+
+- name: Determine Distribution Family | Fail on unsupported distribution
+  ansible.builtin.fail:
+    msg: "Unsupported distribution: {{ ansible_facts.distribution }}. Supported distributions are: Debian/Ubuntu, CentOS/RHEL/Rocky/Alma/Oracle, Fedora, Amazon Linux 2023+, Arch Linux, and OpenSUSE."
+  when: tailscale_distro_family == 'unknown'
