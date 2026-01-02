@@ -1,0 +1,1 @@
+Molecule can read a common configuration across scenarios from a [`.config/molecule/config.yml`](../../.config/molecule/config.yml) file in the project root. Therefore, when making changes to a scenario's `molecule.yml`, check whether the change should be made globally in the common configuration file instead.

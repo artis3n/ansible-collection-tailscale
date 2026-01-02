@@ -1,5 +1,9 @@
 # Ansible Collection: artis3n.tailscale - AI Agent Instructions
 
+Ensure that all practices and instructions described by
+https://raw.githubusercontent.com/ansible/ansible-creator/refs/heads/main/docs/agents.md
+are followed.
+
 ## Project Overview
 
 This is an Ansible Collection for installing and managing Tailscale VPN nodes on Linux systems. The collection follows Ansible Collection's canonical directory structure and is published to Ansible Galaxy. The project contains the `artis3n.tailscale.machine` role for Tailscale client management.

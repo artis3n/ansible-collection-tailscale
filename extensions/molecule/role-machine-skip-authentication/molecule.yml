@@ -1,10 +1,5 @@
 ---
-dependency:
-  name: galaxy
-  options:
-    requirements-file: ../requirements.yml
-driver:
-  name: docker
+# Common Molecule configuration is located at <project root>/.config/molecule/config.yml
 platforms:
   - name: instance
     image: ${MOLECULE_DISTRO:-geerlingguy/docker-ubuntu2404-ansible:latest}
@@ -14,24 +9,6 @@ platforms:
     cgroupns_mode: host
     privileged: true
     pre_build_image: true
-provisioner:
-  name: ansible
-  env:
-    # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
-    ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies"
-  config_options:
-    defaults:
-      callback_result_format: yaml
-verifier:
-  name: ansible
+
 scenario:
   name: role-machine-skip-authentication
-  test_sequence:
-    - dependency
-    - destroy
-    - syntax
-    - create
-    - converge
-    - idempotence
-    - verify
-    - destroy
