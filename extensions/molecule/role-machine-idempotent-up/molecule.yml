@@ -2,6 +2,7 @@
 dependency:
   name: galaxy
   options:
+    role-file: ${MOLECULE_PROJECT_DIRECTORY}/../requirements.yml
     requirements-file: ${MOLECULE_PROJECT_DIRECTORY}/../../../requirements.yml
 driver:
   name: docker
@@ -31,11 +32,12 @@ provisioner:
   name: ansible
   playbooks:
     prepare: ../role-machine-default/prepare.yml
-  env:
-    # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
-    ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies"
   config_options:
     defaults:
+      # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
+      collections_path: ${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies
+      roles_path: ${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies/roles
+      deprecation_warnings: false
       callback_result_format: yaml
 verifier:
   name: ansible

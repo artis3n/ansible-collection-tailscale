@@ -2,9 +2,12 @@
 dependency:
   name: galaxy
   options:
-    requirements-file: ${MOLECULE_PROJECT_DIRECTORY}/../../../requirements.yml
+    role-file: ${MOLECULE_PROJECT_DIRECTORY}/../requirements.yml
+    requirements-file: ${MOLECULE_PROJECT_DIRECTORY}/../requirements.yml
+
 driver:
   name: docker
+
 platforms:
   - name: instance
     image: ${MOLECULE_DISTRO:-geerlingguy/docker-ubuntu2404-ansible:latest}
@@ -27,16 +30,20 @@ platforms:
       - name: headscale
     volumes:
       - "${MOLECULE_PROJECT_DIRECTORY}/molecule/role-machine-default/headscale.config.yaml:/etc/headscale/config.yaml"
+
 provisioner:
   name: ansible
-  env:
-    # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
-    ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies"
   config_options:
     defaults:
+      # Assumes project is in a directory tree: 'collections/ansible_collections/artis3n/tailscale'
+      collections_path: ${MOLECULE_PROJECT_DIRECTORY}/../../../..:${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies
+      roles_path: ${MOLECULE_PROJECT_DIRECTORY}/../.ansible-dependencies/roles
+      deprecation_warnings: false
       callback_result_format: yaml
+
 verifier:
   name: ansible
+
 scenario:
   name: role-machine-default
   test_sequence:
@@ -50,3 +57,5 @@ scenario:
     - verify
     - cleanup
     - destroy
+
+prerun: false

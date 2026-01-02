@@ -3,3 +3,4 @@ collections:
     type: git
   - name: https://github.com/ansible-collections/community.docker
     type: git
+roles: []
