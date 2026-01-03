@@ -48,7 +48,7 @@
     state: absent
   when: "not tailscale_manage_binaries_skip"
 
-- name: Debian | Remove tailscaled config
+- name: Uninstall | Remove tailscaled config
   become: true
   ansible.builtin.file:
     path: /etc/default/tailscaled
