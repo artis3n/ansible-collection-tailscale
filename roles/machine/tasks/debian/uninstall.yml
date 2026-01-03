@@ -29,9 +29,3 @@
       - main
     signed_by: "{{ tailscale_apt_signkey }}"
     state: absent
-
-- name: Debian | Remove tailscaled config
-  become: true
-  ansible.builtin.file:
-    path: /etc/default/tailscaled
-    state: absent

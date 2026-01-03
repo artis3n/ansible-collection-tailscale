@@ -41,9 +41,15 @@
   ansible.builtin.include_tasks: "{{ tailscale_distro_family }}/uninstall.yml"
   when: "not tailscale_manage_binaries_skip"
 
-- name: Uninstall | Remove Tailscale Daemon State and Logs
+- name: Uninstall | Remove Tailscale daemon state and logs
   become: true
   ansible.builtin.file:
     path: "/var/lib/tailscale"
     state: absent
   when: "not tailscale_manage_binaries_skip"
+
+- name: Debian | Remove tailscaled config
+  become: true
+  ansible.builtin.file:
+    path: /etc/default/tailscaled
+    state: absent
