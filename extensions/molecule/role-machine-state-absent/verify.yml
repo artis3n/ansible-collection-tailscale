@@ -23,10 +23,6 @@
         path: "{{ tailscale_state_folder }}/artis3n-tailscale"
       register: state_dir
 
-    - name: Test
-      ansible.builtin.debug:
-        var: state_dir
-
     - name: Assertions
       ansible.builtin.assert:
         that:
