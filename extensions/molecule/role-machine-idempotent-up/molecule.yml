@@ -3,6 +3,8 @@
 provisioner:
   playbooks:
     prepare: ../role-machine-default/prepare.yml
+    verify: ../role-machine-default/verify.yml
+    cleanup: ../role-machine-default/cleanup.yml
 
 scenario:
   name: role-machine-idempotent-up
