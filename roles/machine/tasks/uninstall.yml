@@ -17,7 +17,7 @@
     # "bash: tailscale: command not found"
     - tailscale_status.rc != 127
 
-- name: Install | Determine state folder
+- name: Uninstall | Determine state folder
   ansible.builtin.set_fact:
     # Following https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
     tailscale_state_folder: "{{ ansible_facts.env.XDG_STATE_HOME | default(ansible_facts.env.HOME + '/.local/state') }}"
