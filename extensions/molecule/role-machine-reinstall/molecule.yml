@@ -28,6 +28,7 @@ platforms:
 provisioner:
   playbooks:
     prepare: ../role-machine-default/prepare.yml
+    verify: ../role-machine-default/verify.yml
 
 scenario:
   name: role-machine-reinstall

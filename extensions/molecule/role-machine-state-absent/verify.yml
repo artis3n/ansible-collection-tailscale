@@ -13,9 +13,14 @@
         - tailscale_status.rc != 1
       register: tailscale_status
 
+    - name: Determine state folder
+      ansible.builtin.set_fact:
+        # Following https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+        tailscale_state_folder: "{{ ansible_facts.env.XDG_STATE_HOME | default(ansible_facts.env.HOME + '/.local/state') }}"
+
     - name: Get idempotent state directory status
       ansible.builtin.stat:
-        path: "{{ ansible_env.HOME }}/.artis3n-tailscale"
+        path: "{{ tailscale_state_folder }}/artis3n-tailscale"
       register: state_dir
 
     - name: Assertions
