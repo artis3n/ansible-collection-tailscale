@@ -3,15 +3,15 @@
 
 # Retrieve "ID_LIKE" from /etc/os-release
 # ID_LIKE has the following values, depending on the operating system
-# | OS               | ID_LIKE                          |
-# | Debian           | -- does not exist --             |
-# | Raspberry Pi OS  | -- does not exist --             |
-# | Proxmox          | -- does not exist --             |
-# | Devuan           | "debian"                         |
-# | Raspbian         | "debian"                         |
-# | Ubuntu           | "debian"                         |
-# | Pop!OS           | "ubuntu debian"                  |
-# | Linux Mint       | "ubuntu debian" or "ubuntu"      |
+# | OS               | ID_LIKE                |
+# | Debian           | -- does not exist --   |
+# | Raspberry Pi OS  | -- does not exist --   |
+# | Proxmox          | -- does not exist --   |
+# | Devuan           | "debian"               |
+# | Raspbian         | "debian"               |
+# | Ubuntu           | "debian"               |
+# | Pop!OS           | "ubuntu debian"        |
+# | Linux Mint       | "ubuntu"               |
 - name: Debian | Retrieve Apt ID_LIKE
   check_mode: false
   ansible.builtin.command: >-
