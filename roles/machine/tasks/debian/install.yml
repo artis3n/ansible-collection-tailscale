@@ -18,7 +18,7 @@
       - deb
     uris: https://pkgs.tailscale.com/{{ release_stability | lower }}/{{ tailscale_debian_distro[ansible_facts.distribution | lower] }}
     suites:
-      - "{{ ansible_facts.distribution_release }}"
+      - "{{ apt_codename }}"
     components:
       - main
     signed_by: "{{ tailscale_apt_signkey }}"
