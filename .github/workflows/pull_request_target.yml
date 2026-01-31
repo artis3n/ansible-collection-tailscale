@@ -32,7 +32,6 @@ jobs:
           - image: geerlingguy/docker-rockylinux9-ansible:latest
           - image: geerlingguy/docker-ubuntu2404-ansible:latest
           - image: ghcr.io/fkonradmain/docker-linuxmint22-ansible:latest
-          # This is temporary, at least until https://github.com/clefebvre/docker-images/issues/8 is addressed
           - image: geerlingguy/docker-ubuntu2204-ansible:latest
           - image: geerlingguy/docker-debian13-ansible:latest
           - image: geerlingguy/docker-debian12-ansible:latest
