@@ -71,11 +71,11 @@ A Node Authorization key can be generated under your Tailscale account. The role
 
 Note that Auth keys expire up to a maximum of 90 days after they are generated. OAuth keys (OAuth client secret) do not expire unless revoked, and the OAuth access token generated during playbook execution expires after 1 hour.
 
-For more information, see Tailscale's [OAuth clients](https://tailscale.com/kb/1215/oauth-clients) page, especially [Generating long-lived auth keys](https://tailscale.com/kb/1215/oauth-clients#generating-long-lived-auth-keys).
+For more information, see Tailscale's [OAuth clients](https://tailscale.com/docs/features/oauth-clients) page, especially [Generating long-lived auth keys](https://tailscale.com/docs/features/oauth-clients#generating-long-lived-auth-keys).
 
-If an OAuth key is used, be sure to grant the `write` Devices scope to the OAuth client.
+If an OAuth key is used, be sure to grant the `auth_keys` scope to the OAuth client.
 
-<img src="https://raw.githubusercontent.com/artis3n/ansible-role-tailscale/main/docs/images/oauth_scopes.png" alt="OAuth scopes" width="40%" height="40%">
+<img width="60%" height="60%" alt="Image" src="https://github.com/user-attachments/assets/fe01ad69-a9b9-424b-9d1f-4bdd5d1a0fba" />
 
 This value should be treated as a sensitive secret.
 
