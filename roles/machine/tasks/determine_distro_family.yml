@@ -27,5 +27,7 @@
 
 - name: Determine Distribution Family | Fail on unsupported distribution
   ansible.builtin.fail:
-    msg: "Unsupported distribution: {{ ansible_facts.distribution }}. Supported distributions are: Debian/Ubuntu, CentOS/RHEL/Rocky/Alma/Oracle, Fedora, Amazon Linux 2023+, Arch Linux, and OpenSUSE."
+    msg: >
+      Unsupported distribution: {{ ansible_facts.distribution }}.
+      Supported distributions are: Debian/Ubuntu, CentOS/RHEL/Rocky/Alma/Oracle, Fedora, Amazon Linux 2023+, Arch Linux, and OpenSUSE.
   when: tailscale_distro_family == 'unknown'
