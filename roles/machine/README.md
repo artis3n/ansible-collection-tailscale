@@ -75,7 +75,7 @@ For more information, see Tailscale's [OAuth clients](https://tailscale.com/docs
 
 If an OAuth key is used, be sure to grant the `auth_keys` scope to the OAuth client.
 
-<img width="60%" height="60%" alt="Image" src="https://github.com/user-attachments/assets/fe01ad69-a9b9-424b-9d1f-4bdd5d1a0fba" />
+<img width="45%" height="45%" alt="Image" src="https://github.com/user-attachments/assets/fe01ad69-a9b9-424b-9d1f-4bdd5d1a0fba" />
 
 This value should be treated as a sensitive secret.
 
