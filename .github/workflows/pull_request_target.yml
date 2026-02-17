@@ -43,7 +43,6 @@ jobs:
           - geerlingguy/docker-opensuseleap15-ansible:latest
         scenario:
           - role-machine-default
-          - role-machine-update
         include:
           # Add command overrides for distros that require it
           - image: geerlingguy/docker-debian11-ansible:latest
@@ -110,6 +109,15 @@ jobs:
     uses: ./.github/workflows/molecule.yml
     with:
       scenario: "role-machine-reinstall"
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-update:
+    name: "Run Molecule Scenario: role-machine-update"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      image: "geerlingguy/docker-debian13-ansible:latest"
+      scenario: "role-machine-update"
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
