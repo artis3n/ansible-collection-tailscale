@@ -47,6 +47,7 @@ jobs:
           # Add command overrides for distros that require it
           - image: geerlingguy/docker-debian11-ansible:latest
             command: /lib/systemd/systemd
+            scenario: role-machine-default
 
     uses: ./.github/workflows/molecule.yml
     with:
