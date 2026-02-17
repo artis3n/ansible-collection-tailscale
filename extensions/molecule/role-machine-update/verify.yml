@@ -1,0 +1,22 @@
+---
+- name: Verify
+  hosts: instance
+  tasks:
+    - name: Get Tailscale status
+      become: true
+      ansible.builtin.command: tailscale status
+      changed_when: false
+      register: tailscale_status
+
+    - name: Ensure Tailscale is logged in
+      ansible.builtin.assert:
+        that:
+          - "'Logged out.' not in tailscale_status.stdout"
+          - "'not logged in' not in tailscale_status.stdout"
+
+    # This tests that package manager sources are configured correctly such that users can update Tailscale in the future.
+    # If this fails, it likely means that the Tailscale package repository is not configured correctly and users will not receive updates.
+    - name: Run tailscale update
+      become: true
+      ansible.builtin.command: tailscale update
+      changed_when: false

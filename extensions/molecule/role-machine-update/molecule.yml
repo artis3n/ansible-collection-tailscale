@@ -1,0 +1,18 @@
+---
+provisioner:
+  playbooks:
+    prepare: ../role-machine-default/prepare.yml
+    cleanup: ../role-machine-default/cleanup.yml
+
+scenario:
+  name: role-machine-update
+  test_sequence:
+    - dependency
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - verify
+    - cleanup
+    - destroy
