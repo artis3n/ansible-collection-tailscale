@@ -26,29 +26,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        image:
+          - geerlingguy/docker-amazonlinux2023-ansible:latest
+          - geerlingguy/docker-rockylinux10-ansible
+          - geerlingguy/docker-rockylinux9-ansible:latest
+          - geerlingguy/docker-ubuntu2404-ansible:latest
+          - ghcr.io/fkonradmain/docker-linuxmint22-ansible:latest
+          - geerlingguy/docker-ubuntu2204-ansible:latest
+          - geerlingguy/docker-debian13-ansible:latest
+          - geerlingguy/docker-debian12-ansible:latest
+          - geerlingguy/docker-fedora43-ansible:latest
+          - geerlingguy/docker-fedora42-ansible:latest
+          - geerlingguy/docker-fedora41-ansible:latest
+          - carlodepieri/docker-archlinux-ansible:latest
+          - ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
+          - geerlingguy/docker-opensuseleap15-ansible:latest
+        scenario:
+          - role-machine-default
         include:
-          - image: geerlingguy/docker-amazonlinux2023-ansible:latest
-          - image: geerlingguy/docker-rockylinux10-ansible
-          - image: geerlingguy/docker-rockylinux9-ansible:latest
-          - image: geerlingguy/docker-ubuntu2404-ansible:latest
-          - image: ghcr.io/fkonradmain/docker-linuxmint22-ansible:latest
-          - image: geerlingguy/docker-ubuntu2204-ansible:latest
-          - image: geerlingguy/docker-debian13-ansible:latest
-          - image: geerlingguy/docker-debian12-ansible:latest
+          # Add command overrides for distros that require it
           - image: geerlingguy/docker-debian11-ansible:latest
             command: /lib/systemd/systemd
-          - image: geerlingguy/docker-fedora43-ansible:latest
-          - image: geerlingguy/docker-fedora42-ansible:latest
-          - image: geerlingguy/docker-fedora41-ansible:latest
-          - image: carlodepieri/docker-archlinux-ansible:latest
-          - image: ghcr.io/artis3n/docker-opensuse-tumbleweed-ansible:latest
-          - image: geerlingguy/docker-opensuseleap15-ansible:latest
+            scenario: role-machine-default
 
     uses: ./.github/workflows/molecule.yml
     with:
       image: ${{ matrix.image }}
       command: ${{ matrix.command }}
-      scenario: 'role-machine-default'
+      scenario: ${{ matrix.scenario }}
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 
@@ -105,6 +110,15 @@ jobs:
     uses: ./.github/workflows/molecule.yml
     with:
       scenario: "role-machine-reinstall"
+    secrets:
+      tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
+
+  molecule-update:
+    name: "Run Molecule Scenario: role-machine-update"
+    uses: ./.github/workflows/molecule.yml
+    with:
+      image: "geerlingguy/docker-debian13-ansible:latest"
+      scenario: "role-machine-update"
     secrets:
       tailscale_key: ${{ secrets.TAILSCALE_CI_KEY }}
 

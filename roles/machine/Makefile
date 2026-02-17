@@ -67,6 +67,14 @@ else
 	cd ../../extensions && uv run molecule test --scenario-name role-machine-reinstall
 endif
 
+.PHONY: test-update
+test-update:
+ifndef TAILSCALE_CI_KEY
+	$(error TAILSCALE_CI_KEY is not set)
+else
+	cd ../../extensions && uv run molecule test --scenario-name role-machine-update
+endif
+
 .PHONY: test-headscale
 test-headscale:
 	cd ../../extensions && USE_HEADSCALE=true uv run molecule test --scenario-name role-machine-default

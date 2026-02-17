@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: instance
+  tasks:
+    - name: Init tailscale credentials variables
+      ansible.builtin.include_tasks: ../role-machine-default/init_tailscale_vars.yml
+
+    - name: Install Tailscale
+      ansible.builtin.include_role:
+        name: artis3n.tailscale.machine
