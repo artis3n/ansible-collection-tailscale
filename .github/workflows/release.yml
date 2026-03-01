@@ -17,6 +17,6 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Publish to Ansible Galaxy
-        uses: artis3n/ansible_galaxy_collection@v2
+        uses: artis3n/ansible_galaxy_collection@v3
         with:
           api_key: '${{ secrets.GALAXY_API_KEY }}'
