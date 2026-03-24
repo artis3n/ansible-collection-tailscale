@@ -36,7 +36,9 @@ jobs:
   run-scenario:
     name: "Run Molecule Scenario - ${{ inputs.image }} / ${{ inputs.scenario }}"
     runs-on: ${{ inputs.runner }}
-    environment: E2E
+    environment:
+      name: E2E
+      deployment: false
 
     steps:
       # nosemgrep: yaml.github-actions.security.pull-request-target-code-checkout.pull-request-target-code-checkout
