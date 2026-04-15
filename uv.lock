@@ -21,7 +21,7 @@ wheels = [
 
 [[package]]
 name = "ansible-compat"
-version = "25.8.2"
+version = "26.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ansible-core" },
@@ -30,9 +30,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "subprocess-tee" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e3/06/5e66f1f0d482b21b0dc03c9b9e47cab58dd4efc770f41029bb244e86b608/ansible_compat-25.8.2.tar.gz", hash = "sha256:c5ae1ff70938f1e009cfc7df66c9faad223a3ccd0ad6b57400de53b2459a6164", size = 190581, upload-time = "2025-10-06T12:41:17.415Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/04/42/53ba59f8116e716ec0af8dc47ef65b15f5e3bc28131e8e6cbe87e50203f5/ansible_compat-26.3.0.tar.gz", hash = "sha256:15f0ea5ff6fcc5587b6b11a4a436fdeefd0fd4a46afe92d4e483c28370082ae0", size = 216754, upload-time = "2026-03-31T15:47:58.193Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ed/2e/e4c739e396914301698356ff058f904a5b9c9557e188c5f72b701f6ec66a/ansible_compat-25.8.2-py3-none-any.whl", hash = "sha256:c35fd18f3a8320123f881ad6a23c4125e323e7e559ae09b6279568690a583b8f", size = 27717, upload-time = "2025-10-06T12:41:14.857Z" },
+    { url = "https://files.pythonhosted.org/packages/60/a1/3cf5e81f192a2ae4086f80d37d80e257c7552cd7f319b0160c78251bbfea/ansible_compat-26.3.0-py3-none-any.whl", hash = "sha256:4fb48f324383033cf24df5ccb63bca4da766cb4ebbd4bc9dbad91b108f512a73", size = 27723, upload-time = "2026-03-31T15:47:56.534Z" },
 ]
 
 [[package]]
@@ -66,7 +66,7 @@ wheels = [
 
 [[package]]
 name = "ansible-lint"
-version = "26.1.1"
+version = "26.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ansible-compat" },
@@ -86,9 +86,9 @@ dependencies = [
     { name = "wcmatch" },
     { name = "yamllint" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/08/e6/40ae7444a618e6c47d4a9e59ab825bddb41802f980c9bf3f904b8dc1eea9/ansible_lint-26.1.1.tar.gz", hash = "sha256:7415b1b96ad7d7a453eb7e2afc74644e291dbcd8326f230f0216145fdee29a67", size = 728559, upload-time = "2026-01-16T03:45:31.051Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/39/54f7cc264f7f02c635af786c4a57da4ab993865140f90e031cdec39dd514/ansible_lint-26.4.0.tar.gz", hash = "sha256:29e0438f8af685a4fec96f9ea3404a3beb50d2911bc8df43f283256954ceea5b", size = 736853, upload-time = "2026-04-01T14:41:02.138Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2b/df/e8c0d664d0e720af0229de98ea0931b91cdf309cca16bbd27f59547a7a19/ansible_lint-26.1.1-py3-none-any.whl", hash = "sha256:1ee6f472f1516fbbc86784f0046a9042cbcded87dba4e31e4611f6b62103f340", size = 324941, upload-time = "2026-01-16T03:45:29.039Z" },
+    { url = "https://files.pythonhosted.org/packages/a5/97/803cde1dba6c5cc24f1401b37df8404a2793bd26dc3f11c0a9722109b859/ansible_lint-26.4.0-py3-none-any.whl", hash = "sha256:f33c4823544a5a8e5e36614866e111d1a929eeffee5e84481ede10d524a9d6d6", size = 330939, upload-time = "2026-04-01T14:41:00.083Z" },
 ]
 
 [[package]]
@@ -114,7 +114,7 @@ requires-dist = [{ name = "ansible", specifier = "~=13.3.0" }]
 [package.metadata.requires-dev]
 dev = [
     { name = "ansible-creator", specifier = ">=25.12.0" },
-    { name = "ansible-lint", specifier = "~=26.1.1" },
+    { name = "ansible-lint", specifier = "~=26.4.0" },
     { name = "molecule", specifier = "~=25.12.0" },
     { name = "molecule-plugins", extras = ["docker"], specifier = "~=25.8.12" },
     { name = "pre-commit", specifier = ">=4.3.0" },
