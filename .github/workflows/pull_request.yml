@@ -30,7 +30,7 @@ jobs:
       - name: TEMPORARY - Set up Python 3.13 for pre-commit dependency
         uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       # Technically, uv will manage python version but this action will cache it, making python installation faster
       - name: Set up Python 3.x
