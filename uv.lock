@@ -116,7 +116,7 @@ dev = [
     { name = "ansible-creator", specifier = ">=25.12.0" },
     { name = "ansible-lint", specifier = "~=26.4.0" },
     { name = "molecule", specifier = "~=26.4.0" },
-    { name = "molecule-plugins", extras = ["docker"], specifier = "~=25.8.12" },
+    { name = "molecule-plugins", extras = ["docker"], specifier = "~=26.7.15" },
     { name = "pre-commit", specifier = ">=4.3.0" },
 ]
 
@@ -493,14 +493,14 @@ wheels = [
 
 [[package]]
 name = "molecule-plugins"
-version = "25.8.12"
+version = "26.7.15"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "molecule" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/65/11/b7316c96c9ecca901f3a7fd5927f3dd757e17e11a428fb83cc5349e9b063/molecule_plugins-25.8.12.tar.gz", hash = "sha256:75f32763e90275bfc24bcc0d27b9bb22ac973658bf902b2e3e8af8e2a1c32083", size = 106414, upload-time = "2025-08-12T19:57:36.628Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8a/ca/2967c71978f725772b701b23bd47f9694a9428587a26aa8911ceed2d8549/molecule_plugins-26.7.15.tar.gz", hash = "sha256:df4cab8d9e13ed448fc33d72af1fbae54883e9255a42c021ae7e875dfd3374c1", size = 216679, upload-time = "2026-07-15T16:31:18.145Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a2/ee/efdf33ffb32861d9b357a4e7cff018206729703440c028b92ed64fe834b1/molecule_plugins-25.8.12-py3-none-any.whl", hash = "sha256:c5b8ceb209a5ff87326631d60408f8d08b9431b2e339dad4c620130b50279ce0", size = 76357, upload-time = "2025-08-12T19:57:35.285Z" },
+    { url = "https://files.pythonhosted.org/packages/b2/03/678571fb5d41e3769c578f131aff4bd5dfd8a402be2767d7374c79dc5cf6/molecule_plugins-26.7.15-py3-none-any.whl", hash = "sha256:191dfa7fd965c637e3b61d0929f2fb741f0df1181a250df62eca3657b1182794", size = 86394, upload-time = "2026-07-15T16:31:16.558Z" },
 ]
 
 [package.optional-dependencies]
@@ -744,7 +744,7 @@ name = "selinux"
 version = "0.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "distro", marker = "sys_platform == 'linux' or sys_platform == 'linux2'" },
+    { name = "distro" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/25/07/51acd62e1e15e1172d46f7e32faf138725b147f8c08dbf2d512159d7a310/selinux-0.3.0.tar.gz", hash = "sha256:2a88b337ac46ad0f06f557b2806c3df62421972f766673dd8bf26732fb75a9ea", size = 13479, upload-time = "2022-12-24T16:42:13.163Z" }
 wheels = [
