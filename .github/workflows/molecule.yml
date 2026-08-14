@@ -42,7 +42,7 @@ jobs:
 
     steps:
       # nosemgrep: yaml.github-actions.security.pull-request-target-code-checkout.pull-request-target-code-checkout
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           # This hellish path is a combination of requirements from GitHub runners & molecule with ansible collections
@@ -50,12 +50,12 @@ jobs:
 
       # Technically, uv will manage python version but this action will cache it, making python installation faster
       - name: Set up Python 3.x
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version-file: 'collections/ansible_collections/artis3n/tailscale/pyproject.toml'
 
       - name: Install dependency manager
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
 
