@@ -29,6 +29,9 @@
     cmd: tailscale whois --json {{ tailscale_node_ipv4 | default(tailscale_node_ipv6) }}
   register: tailscale_whois_cmd
   changed_when: false
+  retries: 3
+  delay: 2
+  until: tailscale_whois_cmd.rc == 0
 
 - name: Facts | Parse Tailscale host information
   ansible.builtin.set_fact:
