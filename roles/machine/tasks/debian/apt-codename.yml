@@ -33,4 +33,10 @@
 
 - name: Debian | Set codename for apt
   ansible.builtin.set_fact:
-    apt_codename: "{{ ubuntu_codename.stdout | default(ansible_facts.distribution_release) }}"
+    apt_codename: >-
+      {%- if ansible_facts.distribution == 'Debian'
+             and ansible_facts.distribution_major_version | string in ['n/a', 'NA'] -%}
+      sid
+      {%- else -%}
+      {{ ubuntu_codename.stdout | default(ansible_facts.distribution_release) }}
+      {%- endif -%}
