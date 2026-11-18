@@ -14,7 +14,7 @@ For example:
 USE_HEADSCALE=true molecule test
 ```
 
-If your network re-signs TLS traffic with its own CA (a TLS-inspecting corporate proxy, or a Claude cloud session), the test containers won't trust it. Set `MOLECULE_EXTRA_CA_CERT` to that CA's certificate file, and the prepare step adds it to each test container's trust store. Nothing else about the containers changes. CI leaves it unset.
+If your network re-signs TLS traffic with its own CA (a TLS-inspecting corporate proxy, or a Claude cloud session), the test containers won't trust it. Set `MOLECULE_EXTRA_CA_CERT` to that CA's certificate file, and the prepare step adds it to each test container's trust store.
 
 ```bash
 MOLECULE_EXTRA_CA_CERT=/path/to/inspecting-ca.crt USE_HEADSCALE=true molecule test
