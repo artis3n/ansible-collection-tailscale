@@ -38,3 +38,5 @@ build_ignore:
   - '.idea'
   - '.cache'
   - '.DS_Store'
+  - 'AGENTS.md'
+  - 'docs'
