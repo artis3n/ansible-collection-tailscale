@@ -32,7 +32,7 @@ A change is done when every item on its list is done.
   - **Path**: the checkout must sit at `…/collections/ansible_collections/artis3n/tailscale`, because Molecule finds the collection by walking four directories up from `extensions/`. In a plain clone, `artis3n.tailscale.machine` fails to resolve.
   - **Docker** that can run privileged systemd containers.
   - **A tailnet**: either `TAILSCALE_CI_KEY`, an ephemeral auth key (the `role-machine-oauth` scenario reads `TAILSCALE_OAUTH_CLIENT_SECRET` instead), or `USE_HEADSCALE=true`, which joins a local Headscale container and needs no key. The Headscale image comes from ghcr.io (`HEADSCALE_IMAGE` overrides it). Headscale's CLI changes between releases, so when this path breaks, look at the Headscale steps in `role-machine-default/prepare.yml` first.
-- **When Molecule can't run**: say so in your report and leave the end-to-end check to CI. On `pull_request_target`, once a maintainer approves the `E2E` environment, CI runs the default scenario on every distro image, most other scenarios on one image each, and three scenarios against Headscale.
+- **When Molecule can't run**: say so in your report and leave the end-to-end check to CI. Test containers get the network they would have in CI or on a real host, so results reflect production: keep any session proxy, and its CA certificate, out of them. When a test container can't reach a package mirror or Tailscale from this machine, Molecule can't run here. On `pull_request_target`, once a maintainer approves the `E2E` environment, CI runs the default scenario on every distro image, most other scenarios on one image each, and three scenarios against Headscale.
 
 ## Agent skills
 
