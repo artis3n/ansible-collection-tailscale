@@ -10,7 +10,7 @@ noise:
 
 database:
   type: sqlite
-  sqlit:
+  sqlite:
     path: /etc/headscale/db.sqlite
 
 # Default Tailscale prefixes
