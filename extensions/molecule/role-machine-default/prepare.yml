@@ -13,39 +13,59 @@
         path: /etc/shadow
         mode: '400'
 
-# Temporarily disable until https://github.com/juanfont/headscale/pull/2636 is released
-# - name: Prepare
-#  hosts: localhost
-#  gather_facts: false
-#  tasks:
-#    - name: Create Headscale user
-#      community.docker.docker_container_exec:
-#        container: headscale
-#        command: headscale users create test
-#
-#    - name: Create preauth key
-#      community.docker.docker_container_exec:
-#        container: headscale
-#        command: headscale preauthkeys create -u test --reusable
-#
-#    - name: Fetch Headscale container info
-#      community.docker.docker_container_info:
-#        name: headscale
-#      register: headscale_info
-#
-#    - name: Fetch Headscale network info
-#      community.docker.docker_network_info:
-#        name: headscale
-#      register: headscale_network
-#
-#    - name: Get instance names
-#      ansible.builtin.set_fact:
-#        instance_names: "{{ headscale_network.network.Containers | dict2items | selectattr('value.Name', 'match', '^instance') | map(attribute='value.Name') | list }}"
-#
-#    - name: Set hosts override for Headscale
-#      delegate_to: "{{ item }}"
-#      loop: "{{ instance_names }}"
-#      ansible.builtin.lineinfile:
-#        path: /etc/hosts
-#        line: "{{ headscale_info.container.NetworkSettings.Networks.headscale.IPAddress }}  headscale"
-#        unsafe_writes: true  # Hosts file in the docker container can't be written to atomically
+- name: Trust extra CA certificate
+  ansible.builtin.import_playbook: prepare_extra_ca.yml
+
+- name: Prepare Headscale
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Prepare Headscale
+      when: lookup('ansible.builtin.env', 'USE_HEADSCALE', default=false) | bool
+      block:
+        - name: Create Headscale user
+          community.docker.docker_container_exec:
+            container: headscale
+            command: headscale users create test -o json
+          register: headscale_user
+          # The Headscale server may still be starting up
+          retries: 10
+          delay: 2
+          until: headscale_user is succeeded
+
+        # `preauthkeys list` masks keys, so keep the key from `create` for converge (see init_tailscale_vars.yml)
+        - name: Create preauth key
+          community.docker.docker_container_exec:
+            container: headscale
+            command: "headscale preauthkeys create -u {{ (headscale_user.stdout | from_json).id }} --reusable -o json"
+          register: headscale_preauthkey
+          no_log: true
+
+        - name: Store preauth key
+          ansible.builtin.copy:
+            content: "{{ (headscale_preauthkey.stdout | from_json).key }}"
+            dest: "{{ lookup('ansible.builtin.env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/headscale_authkey"
+            mode: '0600'
+          no_log: true
+
+        - name: Fetch Headscale container info
+          community.docker.docker_container_info:
+            name: headscale
+          register: headscale_info
+
+        - name: Fetch Headscale network info
+          community.docker.docker_network_info:
+            name: headscale
+          register: headscale_network
+
+        - name: Get instance names
+          ansible.builtin.set_fact:
+            instance_names: "{{ headscale_network.network.Containers | dict2items | selectattr('value.Name', 'match', '^instance') | map(attribute='value.Name') | list }}"
+
+        - name: Set hosts override for Headscale
+          delegate_to: "{{ item }}"
+          loop: "{{ instance_names }}"
+          ansible.builtin.lineinfile:
+            path: /etc/hosts
+            line: "{{ headscale_info.container.NetworkSettings.Networks.headscale.IPAddress }}  headscale"
+            unsafe_writes: true  # Hosts file in the docker container can't be written to atomically
