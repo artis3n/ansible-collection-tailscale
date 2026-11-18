@@ -10,5 +10,9 @@ platforms:
     privileged: true
     pre_build_image: true
 
+provisioner:
+  playbooks:
+    prepare: ../role-machine-default/prepare_extra_ca.yml
+
 scenario:
   name: role-machine-skip-authentication

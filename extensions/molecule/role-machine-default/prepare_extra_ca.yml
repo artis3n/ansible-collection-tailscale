@@ -1,0 +1,46 @@
+---
+# Opt-in: trust one extra CA certificate in the test instances, for networks that re-sign TLS
+# (such as Claude cloud sessions). Set MOLECULE_EXTRA_CA_CERT to the CA file on the controller.
+# CI and local runs leave it unset, and this play changes nothing.
+- name: Prepare | Trust extra CA certificate
+  hosts: instance*
+  gather_facts: false
+  vars:
+    molecule_extra_ca_cert: "{{ lookup('ansible.builtin.env', 'MOLECULE_EXTRA_CA_CERT') }}"
+    molecule_ca_trust:
+      Debian:
+        anchor_dir: /usr/local/share/ca-certificates
+        update_command: update-ca-certificates
+      RedHat:
+        anchor_dir: /etc/pki/ca-trust/source/anchors
+        update_command: update-ca-trust
+      Archlinux:
+        anchor_dir: /etc/ca-certificates/trust-source/anchors
+        update_command: update-ca-trust
+      Suse:
+        anchor_dir: /etc/pki/trust/anchors
+        update_command: update-ca-certificates
+  tasks:
+    - name: Prepare | Trust extra CA certificate
+      when: molecule_extra_ca_cert | length > 0
+      block:
+        - name: Prepare | Gather OS family
+          ansible.builtin.setup:
+            gather_subset:
+              - min
+
+        - name: Prepare | Check OS family is supported
+          ansible.builtin.assert:
+            that: ansible_facts.os_family in molecule_ca_trust
+            fail_msg: "No CA trust store path for OS family {{ ansible_facts.os_family }}; add it to molecule_ca_trust."
+
+        # Only adds the certificate; never installs packages, so a missing ca-certificates package still fails as in CI
+        - name: Prepare | Copy extra CA certificate
+          ansible.builtin.copy:
+            src: "{{ molecule_extra_ca_cert }}"
+            dest: "{{ molecule_ca_trust[ansible_facts.os_family].anchor_dir }}/molecule-extra-ca.crt"
+            mode: '0644'
+
+        - name: Prepare | Update CA trust store
+          ansible.builtin.command: "{{ molecule_ca_trust[ansible_facts.os_family].update_command }}"
+          changed_when: true

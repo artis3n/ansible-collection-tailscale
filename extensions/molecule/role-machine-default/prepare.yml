@@ -13,6 +13,9 @@
         path: /etc/shadow
         mode: '400'
 
+- name: Trust extra CA certificate
+  ansible.builtin.import_playbook: prepare_extra_ca.yml
+
 - name: Prepare Headscale
   hosts: localhost
   gather_facts: false
